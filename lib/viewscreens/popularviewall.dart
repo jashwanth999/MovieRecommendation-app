@@ -17,7 +17,7 @@ class _PopularviewallState extends State<Popularviewall> {
   void getpopularresponse() async {
     var response = await Dio().get("https://api.themoviedb.org/3/movie/" +
         widget.movieurlname +
-        "?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1");
+        "?api_key="your-api"+&language=en-US&page=1");
     var data = response.data;
     try {
       setState(() {
