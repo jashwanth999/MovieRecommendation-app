@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/Topbarscreens/Recommendations.dart';
 import 'package:flutter_app/components/Topbarscreens/Reviews.dart';
-import 'package:flutter_app/components/Toprated.dart';
 import "../components/Topbarscreens/About.dart";
 import '../components/Topbarscreens/Cast.dart';
 import 'package:dio/dio.dart';
@@ -162,10 +160,6 @@ class _TopbarState extends State<Topbar> {
                     )
                   ],
                 ))));
-  }
-
-  Widget getimage() {
-    return SliverToBoxAdapter(child: Container(child: Toprated()));
   }
 
   Widget getcard() {

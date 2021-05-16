@@ -4,9 +4,6 @@ import 'package:flutter_app/Search/searchnames.dart';
 import '../components/Homecorousel.dart';
 import '../viewscreens/popularviewall.dart';
 import '../components/Latest.dart';
-import '../components/Toprated.dart';
-import '../components/Popular.dart';
-
 class Home extends StatefulWidget {
   final id;
   final username;
@@ -17,6 +14,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List data = [
+    {
+      "name": "",
+      "url": "",
+    },
+    {
+      "name": "",
+      "url": "",
+    },
+    {
+      "name": "Popular",
+      "url":
+          "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
+    },
+    {
+      "name": "Top Rated",
+      "url":
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,16 +43,18 @@ class _HomeState extends State<Home> {
             decoration: BoxDecoration(
               color: Colors.black,
             ),
-            child: SingleChildScrollView(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                  gethead(),
-                  Homecorousel(),
-                  getpopular(),
-                  gettoprated(),
-                  getlatest()
-                ]))));
+            child: getlist()));
+  }
+
+  Widget getlist() {
+    return Container(
+        child: ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) return gethead();
+              if (index == 1) return Homecorousel();
+              return getlatest(data[index]["name"], data[index]['url']);
+            }));
   }
 
   Widget gethead() {
@@ -65,28 +84,54 @@ class _HomeState extends State<Home> {
         ));
   }
 
-  Widget gettoprated() {
+  Widget getlatest(name, url) {
     return Container(
         child: Column(
-      children: [
-        topratedhead(),
-        Toprated(),
-      ],
+      children: [getlatesthead(name), Latest(url: url)],
     ));
   }
 
-  Widget getpopular() {
+  Widget getbestdramaname() {
     return Container(
-        child: Column(
-      children: [getpopularhead(), Popular()],
-    ));
-  }
-
-  Widget getlatest() {
-    return Container(
-        child: Column(
-      children: [getlatesthead(), Latest()],
-    ));
+        margin: EdgeInsets.only(top: 15, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 25,
+                  width: 5,
+                  margin: EdgeInsets.only(right: 8, left: 2),
+                  decoration: BoxDecoration(color: Colors.blue[300]),
+                ),
+                Container(
+                    child: Text('Top movies in 2020',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold))),
+              ],
+            ),
+            Container(
+                child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Popularviewall(
+                              movieurlname: 'popular',
+                              originalmoviename: 'Popular',
+                            )));
+              },
+              child: Text("VIEW ALL",
+                  style: TextStyle(
+                      color: Colors.white,
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 15)),
+            ))
+          ],
+        ));
   }
 
   Widget gettrendingname() {
@@ -99,7 +144,7 @@ class _HomeState extends State<Home> {
                 child: Text("Trending",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 22,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ))),
             Container(
@@ -122,7 +167,7 @@ class _HomeState extends State<Home> {
         ));
   }
 
-  Widget getlatesthead() {
+  Widget getlatesthead(name) {
     return Container(
         margin: EdgeInsets.only(top: 15, right: 10),
         child: Row(
@@ -137,10 +182,10 @@ class _HomeState extends State<Home> {
                   decoration: BoxDecoration(color: Colors.blue[300]),
                 ),
                 Container(
-                    child: Text('Latest',
+                    child: Text(name,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold))),
               ],
             ),
@@ -183,7 +228,7 @@ class _HomeState extends State<Home> {
                     child: Text('Popular',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold))),
               ],
             ),
@@ -226,7 +271,7 @@ class _HomeState extends State<Home> {
                     child: Text('Top Rated',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold))),
               ],
             ),

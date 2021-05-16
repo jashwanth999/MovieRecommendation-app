@@ -3,7 +3,8 @@ import 'package:flutter_app/navigations/Topbar.dart';
 import 'package:dio/dio.dart';
 
 class Latest extends StatefulWidget {
-  Latest({Key key}) : super(key: key);
+  final url;
+  Latest({Key key,@required this.url}) : super(key: key);
 
   @override
   _LatestState createState() => _LatestState();
@@ -13,7 +14,7 @@ class _LatestState extends State<Latest> {
   List val;
   Future getresponse() async {
     var response = await Dio().get(
-        "https://api.themoviedb.org/3/movie/upcoming?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1");
+        widget.url);
     var data = response.data;
     try {
       setState(() {
