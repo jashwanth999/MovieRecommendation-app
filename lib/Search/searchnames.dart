@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
@@ -15,22 +16,46 @@ class _SearchnamesState extends State<Searchnames> {
 
   Future getpopularresponse() async {
     try {
-      var response = await Dio().get("http://movie-bj-9.herokuapp.com/getname");
-      var data = response.data;
-      return data;
+      if (k == "") {
+      } else {
+        var response = await Dio().get(
+            "http://api.themoviedb.org/3/search/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&language=en-US&page=1&include_adult=false&query=" +
+                k);
+        var data = response.data;
+
+        return data;
+      }
     } catch (e) {
       print(e);
     }
   }
 
+  Timer _timer;
   @override
   void initState() {
+    _timer = Timer(Duration(milliseconds: 1000), () async {
+      try {
+        await this.getpopularresponse().then((value) => {
+              if (mounted)
+                {
+                  setState(() {
+                    names = value["results"];
+                  })
+                }
+            });
+      } catch (e) {}
+    });
+
     super.initState();
-    this.getpopularresponse().then((value) => {
-          setState(() {
-            names = value;
-          })
-        });
+  }
+
+  @override
+  void dispose() {
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
+    super.dispose();
   }
 
   @override
@@ -47,6 +72,21 @@ class _SearchnamesState extends State<Searchnames> {
               onChanged: (text) {
                 setState(() {
                   k = text;
+                  try {
+                    getpopularresponse().then((value) => {
+                          if (value == null)
+                            {}
+                          else
+                            {
+                              if (mounted)
+                                {
+                                  setState(() {
+                                    names = value["results"];
+                                  })
+                                }
+                            }
+                        });
+                  } catch (e) {}
                 });
               },
               style: TextStyle(color: Colors.white, fontSize: 20),
@@ -87,17 +127,12 @@ class _SearchnamesState extends State<Searchnames> {
           fontSize: 50,
         ),
       )));
-    if (names == null)
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-
-    List dat = names.where((f) => f.contains(k)).toList();
+    if (names == null) return Center(child: CircularProgressIndicator());
 
     return Container(
         margin: EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: ListView.builder(
-            itemCount: dat.length,
+            itemCount: names.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                   onTap: () {
@@ -105,7 +140,8 @@ class _SearchnamesState extends State<Searchnames> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Topbar(
-                                  moviename: dat[index],
+                                  moviename: names[index]["original_title"],
+                                  
                                 )));
                   },
                   child: Container(
@@ -113,16 +149,59 @@ class _SearchnamesState extends State<Searchnames> {
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                                child: Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Text(
-                                      dat[index],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 20),
-                                    )))
+                            Container(
+                                margin: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 120,
+                                width: 100,
+                                child: names[index]["poster_path"] == null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: Image(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'images/loading.png')))
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: FadeInImage.assetNetwork(
+                                          image:
+                                              "https://image.tmdb.org/t/p/w500" +
+                                                  names[index]["poster_path"],
+                                          placeholder: "images/loading.png",
+                                          fit: BoxFit.cover,
+                                        ))),
+                            Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: 230,
+                                      margin:
+                                          EdgeInsets.only(top: 30, left: 10),
+                                      child: Text(
+                                        names[index]['original_title'],
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 20),
+                                      )),
+                                  Container(
+                                      margin:
+                                          EdgeInsets.only(top: 20, left: 10),
+                                      child: Text(
+                                        "🌟 " +
+                                            names[index]['vote_average']
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey,
+                                            fontSize: 15),
+                                      ))
+                                ])
                           ])));
             }));
   }

@@ -25,7 +25,7 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         gethead(),
         getfollowers(),
         //getpublicplay(),
@@ -156,13 +156,14 @@ class _ProfileState extends State<Profile> {
         margin: EdgeInsets.only(
           top: 70,
         ),
+        alignment: Alignment.center,
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Container(
               alignment: Alignment.center,
               height: 120,
               width: 120,
               child: Text(
-                "R",
+                widget.username[0],
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,

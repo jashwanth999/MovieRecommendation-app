@@ -171,18 +171,17 @@ class _AnswerState extends State<Answer> {
                 Column(
                   children: [
                     Container(
-                        height: 50,
                         padding: EdgeInsets.only(
-                          top: 10,
                           left: 10,
-                          bottom: 5,
                         ),
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(0.0),
+                          color: Colors.grey[700],
+                          borderRadius: BorderRadius.circular(23.0),
                         ),
                         child: TextField(
+                          minLines: 1,
+                          maxLines: 3,
                           controller: _controller,
                           style: TextStyle(color: Colors.white),
                           onChanged: (text) {

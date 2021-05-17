@@ -3,7 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app/Search/searchnames.dart';
 import '../components/Homecorousel.dart';
 import '../viewscreens/popularviewall.dart';
-import '../components/Latest.dart';
+import '../components/Movieslist.dart';
+
 class Home extends StatefulWidget {
   final id;
   final username;
@@ -24,14 +25,34 @@ class _HomeState extends State<Home> {
       "url": "",
     },
     {
+      "name": "Top Rated",
+      "url":
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
+    },
+    {
       "name": "Popular",
       "url":
           "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
     },
     {
-      "name": "Top Rated",
+      "name": "Top Movies 2020",
       "url":
-          "https://api.themoviedb.org/3/movie/top_rated?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
+          "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2020",
+    },
+    {
+      "name": "Top Movies 2019",
+      "url":
+          "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2019",
+    },
+    {
+      "name": "Action Movies",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=18",
+    },
+    {
+      "name": "Highest Grossing Comedy",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=35&with_cast=23659&sort_by=revenue.desc",
     },
   ];
   @override
@@ -87,87 +108,11 @@ class _HomeState extends State<Home> {
   Widget getlatest(name, url) {
     return Container(
         child: Column(
-      children: [getlatesthead(name), Latest(url: url)],
+      children: [getlatesthead(name, url), Latest(url: url)],
     ));
   }
 
-  Widget getbestdramaname() {
-    return Container(
-        margin: EdgeInsets.only(top: 15, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 25,
-                  width: 5,
-                  margin: EdgeInsets.only(right: 8, left: 2),
-                  decoration: BoxDecoration(color: Colors.blue[300]),
-                ),
-                Container(
-                    child: Text('Top movies in 2020',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))),
-              ],
-            ),
-            Container(
-                child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Popularviewall(
-                              movieurlname: 'popular',
-                              originalmoviename: 'Popular',
-                            )));
-              },
-              child: Text("VIEW ALL",
-                  style: TextStyle(
-                      color: Colors.white,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 15)),
-            ))
-          ],
-        ));
-  }
-
-  Widget gettrendingname() {
-    return Container(
-        margin: EdgeInsets.only(top: 15, left: 10, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-                child: Text("Trending",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ))),
-            Container(
-                child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Popularviewall(
-                              movieurlname: 'Trending',
-                            )));
-              },
-              child: Text("VIEW ALL",
-                  style: TextStyle(
-                      color: Colors.white,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 15)),
-            ))
-          ],
-        ));
-  }
-
-  Widget getlatesthead(name) {
+  Widget getlatesthead(name, url) {
     return Container(
         margin: EdgeInsets.only(top: 15, right: 10),
         child: Row(
@@ -196,8 +141,9 @@ class _HomeState extends State<Home> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Popularviewall(
-                              movieurlname: 'upcoming',
-                              originalmoviename: 'Upcoming',
+                              movieurlname: name,
+                              originalmoviename: name,
+                              url: url,
                             )));
               },
               child: Text("VIEW ALL",
@@ -206,93 +152,6 @@ class _HomeState extends State<Home> {
                       //fontWeight: FontWeight.bold,
                       fontSize: 15)),
             ))
-          ],
-        ));
-  }
-
-  Widget getpopularhead() {
-    return Container(
-        margin: EdgeInsets.only(top: 15, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 25,
-                  width: 5,
-                  margin: EdgeInsets.only(right: 8, left: 2),
-                  decoration: BoxDecoration(color: Colors.blue[300]),
-                ),
-                Container(
-                    child: Text('Popular',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))),
-              ],
-            ),
-            Container(
-                child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Popularviewall(
-                              movieurlname: 'popular',
-                              originalmoviename: 'Popular',
-                            )));
-              },
-              child: Text("VIEW ALL",
-                  style: TextStyle(
-                      color: Colors.white,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 15)),
-            ))
-          ],
-        ));
-  }
-
-  Widget topratedhead() {
-    return Container(
-        margin: EdgeInsets.only(top: 15, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 25,
-                  width: 5,
-                  margin: EdgeInsets.only(right: 8, left: 2),
-                  decoration: BoxDecoration(color: Colors.blue[300]),
-                ),
-                Container(
-                    child: Text('Top Rated',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))),
-              ],
-            ),
-            Container(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Popularviewall(
-                                movieurlname: 'top_rated',
-                                originalmoviename: 'Top Rated',
-                              )));
-                },
-                child: Text("VIEW ALL",
-                    style: TextStyle(
-                        color: Colors.white,
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 15)),
-              ),
-            )
           ],
         ));
   }

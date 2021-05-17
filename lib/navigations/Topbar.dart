@@ -42,124 +42,159 @@ class _TopbarState extends State<Topbar> {
 
   @override
   Widget build(BuildContext context) {
-    if (moviedetails == null) return Center(child: CircularProgressIndicator());
     return Scaffold(
         backgroundColor: Colors.black,
         body: DefaultTabController(
             length: 4,
-            child: NestedScrollView(
-                headerSliverBuilder: (context, value) {
-                  return [
-                    SliverAppBar(
-                      backgroundColor: Colors.black,
-                      expandedHeight: 300,
-                      pinned: true,
-                      bottom: TabBar(
-                        isScrollable: true,
-                        indicatorWeight: 3,
-                        indicatorColor: Colors.pink,
-                        unselectedLabelColor: Colors.white,
-                        tabs: [
-                          Tab(
-                            child: Container(
-                              child:
-                                  Text("About", style: TextStyle(fontSize: 18)),
-                            ),
-                          ),
-                          Tab(
-                            child: Container(
-                              child:
-                                  Text("Cast", style: TextStyle(fontSize: 18)),
-                            ),
-                          ),
-                          Tab(
-                            child: GestureDetector(
-                              child: Container(
-                                child: Text("Recommends",
-                                    style: TextStyle(fontSize: 18)),
+            child: moviedetails == null
+                ? Center(child: CircularProgressIndicator())
+                : NestedScrollView(
+                    headerSliverBuilder: (context, value) {
+                      return [
+                        SliverAppBar(
+                          backgroundColor: Colors.black,
+                          expandedHeight: 320,
+                          pinned: true,
+                          bottom: TabBar(
+                            isScrollable: true,
+                            indicatorWeight: 3,
+                            indicatorColor: Colors.pink,
+                            unselectedLabelColor: Colors.white,
+                            tabs: [
+                              Tab(
+                                child: Container(
+                                  child: Text("About",
+                                      style: TextStyle(fontSize: 18)),
+                                ),
                               ),
-                            ),
+                              Tab(
+                                child: Container(
+                                  child: Text("Cast",
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                              ),
+                              Tab(
+                                child: GestureDetector(
+                                  child: Container(
+                                    child: Text("Recommends",
+                                        style: TextStyle(fontSize: 18)),
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: Container(
+                                  child: Text("Reviews",
+                                      style: TextStyle(fontSize: 18)),
+                                ),
+                              ),
+                            ],
                           ),
-                          Tab(
-                            child: Container(
-                              child: Text("Reviews",
-                                  style: TextStyle(fontSize: 18)),
-                            ),
-                          ),
-                        ],
-                      ),
-                      flexibleSpace: FlexibleSpaceBar(
-                          background: Container(
-                              child: Column(
-                        children: [
-                          moviedetails == null
-                              ? CircularProgressIndicator()
-                              : Container(
-                                  width: double.infinity,
-                                  height: 240,
-                                  child: Image(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        "https://image.tmdb.org/t/p/original" +
-                                            moviedetails[0]['backdrop_path'],
-                                      ))),
-                        ],
-                      ))),
-                      actions: [
-                        GestureDetector(
-                            onTap: () {
-                              Scaffold.of(context).showBottomSheet<void>(
-                                (BuildContext context) {
-                                  return Container(
-                                    height: 220,
-                                    decoration:
-                                        BoxDecoration(color: Colors.black),
-                                    child: Center(
-                                      child: Stack(
+                          flexibleSpace: FlexibleSpaceBar(
+                              background: Container(
+                                  child: Stack(
+                            children: [
+                              moviedetails == null
+                                  ? Center(child: CircularProgressIndicator())
+                                  : Container(
+                                      width: double.infinity,
+                                      height: 240,
+                                      child: Image(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                            "https://image.tmdb.org/t/p/original" +
+                                                moviedetails[0]
+                                                    ['backdrop_path'],
+                                          ))),
+                              Positioned(
+                                  bottom: 60,
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Positioned(
-                                              right: 0,
-                                              top: 0,
-                                              child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Icon(
-                                                    Icons.close,
-                                                    color: Colors.pink,
-                                                    size: 30,
+                                          Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    "https://play-lh.googleusercontent.com/IO3niAyss5tFXAQP176P0Jk5rg_A_hfKPNqzC4gb15WjLPjo5I-f7oIZ9Dqxw2wPBAg",
                                                   ))),
+                                          Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Image(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRg5PtQDBAG-OciYiSal0Xghm5FeD5EmbzlA&usqp=CAU",
+                                                  ))),
+                                          Container(
+                                              width: 30,
+                                              height: 30,
+                                              child: Text(
+                                                "💯",
+                                                style: TextStyle(fontSize: 20),
+                                              )),
                                         ],
-                                      ),
-                                    ),
+                                      )))
+                            ],
+                          ))),
+                          actions: [
+                            GestureDetector(
+                                onTap: () {
+                                  Scaffold.of(context).showBottomSheet<void>(
+                                    (BuildContext context) {
+                                      return Container(
+                                        height: 220,
+                                        decoration:
+                                            BoxDecoration(color: Colors.black),
+                                        child: Center(
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                  right: 0,
+                                                  top: 0,
+                                                  child: GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        color: Colors.pink,
+                                                        size: 30,
+                                                      ))),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                            child: Icon(Icons.more_vert)),
-                        SizedBox(
-                          width: 12,
+                                child: Icon(Icons.more_vert)),
+                            SizedBox(
+                              width: 12,
+                            ),
+                          ],
                         ),
+                      ];
+                    },
+                    body: TabBarView(
+                      children: [
+                        About(
+                            overview: moviedetails[0]['overview'],
+                            moviename: moviedetails[0]['original_title'],
+                            id: moviedetails[0]['id']),
+                        Cast(id: moviedetails[0]['id']),
+                        Recommendations(
+                            id: moviedetails[0]['id'],
+                            movie_name: widget.moviename),
+                        Reviews(
+                          id: moviedetails[0]['id'],
+                          moviename: widget.moviename,
+                        )
                       ],
-                    ),
-                  ];
-                },
-                body: TabBarView(
-                  children: [
-                    About(
-                        overview: moviedetails[0]['overview'],
-                        moviename: moviedetails[0]['original_title'],
-                        id: moviedetails[0]['id']),
-                    Cast(id: moviedetails[0]['id']),
-                    Recommendations(
-                        id: moviedetails[0]['id'],
-                        movie_name: widget.moviename),
-                    Reviews(
-                      id: moviedetails[0]['id'],
-                      moviename: widget.moviename,
-                    )
-                  ],
-                ))));
+                    ))));
   }
 
   Widget getcard() {

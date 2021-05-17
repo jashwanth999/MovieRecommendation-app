@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
 import 'package:dio/dio.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Latest extends StatefulWidget {
   final url;
-  Latest({Key key,@required this.url}) : super(key: key);
+  Latest({Key key, @required this.url}) : super(key: key);
 
   @override
   _LatestState createState() => _LatestState();
@@ -13,8 +14,7 @@ class Latest extends StatefulWidget {
 class _LatestState extends State<Latest> {
   List val;
   Future getresponse() async {
-    var response = await Dio().get(
-        widget.url);
+    var response = await Dio().get(widget.url);
     var data = response.data;
     try {
       setState(() {
@@ -35,7 +35,26 @@ class _LatestState extends State<Latest> {
   Widget build(BuildContext context) {
     if (val == null)
       return Container(
-          height: 160, child: Center(child: CircularProgressIndicator()));
+          margin: EdgeInsets.symmetric(vertical: 10.0),
+          height: 160.0,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 20,
+              itemBuilder: (BuildContext context, int index) {
+                return Shimmer.fromColors(
+                  period: Duration(milliseconds: 2000),
+                  baseColor: Colors.grey[700],
+                  direction: ShimmerDirection.ltr,
+                  highlightColor: Colors.grey[500],
+                  child: Container(
+                    width: 110,
+                    margin: EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4.0)),
+                  ),
+                );
+              }));
     else
       return Container(
           margin: EdgeInsets.symmetric(vertical: 10.0),

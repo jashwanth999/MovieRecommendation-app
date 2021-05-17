@@ -91,6 +91,7 @@ class _ExploreState extends State<Explore> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Color.fromRGBO(171, 178, 185, 1),
           content: show == true
               ? Container(
                   width: 50,
@@ -112,28 +113,48 @@ class _ExploreState extends State<Explore> {
               : SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[
-                      TextField(
-                        onChanged: (text) {
-                          setState(() {
-                            post = text;
-                          });
-                        },
-                        decoration: InputDecoration(hintText: 'Type here'),
-                      )
+                      Container(
+                          padding: EdgeInsets.only(
+                            top: 10,
+                            left: 10,
+                            bottom: 5,
+                          ),
+                          width: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5.0),
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                          ),
+                          child: SingleChildScrollView(
+                              child: TextField(
+                            maxLines: 3,
+                            minLines: 3,
+                            onChanged: (text) {
+                              setState(() {
+                                post = text;
+                              });
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type here'),
+                          ))),
                     ],
                   ),
                 ),
           actions: <Widget>[
             TextButton(
-              child: Text('close'),
+              child: Text('CLOSE'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Post'),
+              child: Text('POST'),
               onPressed: () {
-                if (post == "") {
+                if (post == null) {
                 } else {
                   show = true;
                   postdata().then((value) => {
@@ -166,7 +187,7 @@ class _ExploreState extends State<Explore> {
           centerTitle: true,
           backgroundColor: Colors.black,
           title: Text(
-            'Explore',
+            'Ask here',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),

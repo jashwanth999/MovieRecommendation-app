@@ -74,25 +74,44 @@ class _WatchlistState extends State<Watchlist> {
                                     builder: (context) => Watchlistmovies()));
                           },
                           child: Container(
+                              height: 159,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(153, 163, 164, 1),
+                                  borderRadius: BorderRadius.circular(10)),
                               margin: EdgeInsets.all(10),
-                              child: Row(
+                              child: Stack(
                                 children: [
                                   Container(
-                                      alignment: Alignment.center,
-                                      height: 60,
-                                      width: 60,
-                                      color: Colors.black,
-                                      child: Text("🍟",
-                                          style: TextStyle(fontSize: 40))),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    child: Text(
-                                        watchlist[index]['watchlistname'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 23)),
-                                  )
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image(
+                                          fit: BoxFit.fitWidth,
+                                          image:
+                                              AssetImage("images/loading.png"),
+                                        )),
+                                  ),
+                                  Positioned(
+                                      top: 10,
+                                      right: 0,
+                                      child: Icon(Icons.more_vert,
+                                          color: Colors.black)),
+                                  Positioned(
+                                      bottom: 10,
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 20),
+                                        child: Text(
+                                            watchlist[index]['watchlistname'] ==
+                                                    null
+                                                ? ""
+                                                : watchlist[index]
+                                                    ['watchlistname'],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 27)),
+                                      )),
                                 ],
                               )));
                     }),

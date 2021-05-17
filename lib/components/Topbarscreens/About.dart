@@ -161,7 +161,8 @@ class _AboutState extends State<About> {
 
   Widget getdetailslist() {
     if (moviedetails == null || director == null)
-      return Center(child: CircularProgressIndicator());
+      return Container(
+          height: 200, child: Center(child: CircularProgressIndicator()));
     return Container(
         margin: EdgeInsets.all(10),
         child: Column(
@@ -171,7 +172,7 @@ class _AboutState extends State<About> {
               margin: EdgeInsets.only(top: 4),
               child: Text("Director: " + (director == null ? "" : director[0]),
                   style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: Color.fromRGBO(131, 145, 146, 1),
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -184,7 +185,7 @@ class _AboutState extends State<About> {
                           moviedetails[0]['runtime'].toString() +
                           "m",
                   style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: Color.fromRGBO(131, 145, 146, 1),
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -195,7 +196,7 @@ class _AboutState extends State<About> {
                       ? "Release Date: " + "NO data"
                       : "Release Date: " + moviedetails[0]['release_date'],
                   style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: Color.fromRGBO(131, 145, 146, 1),
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -207,7 +208,7 @@ class _AboutState extends State<About> {
                       : "popularity: " +
                           moviedetails[0]['popularity'].toString(),
                   style: TextStyle(
-                      color: Colors.blueAccent,
+                      color: Color.fromRGBO(131, 145, 146, 1),
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -223,22 +224,21 @@ class _AboutState extends State<About> {
       ),
       child: Text("DETAILS",
           style: TextStyle(
-              color: Colors.cyanAccent,
+              color: Color.fromRGBO(222, 49, 99, 1),
               fontSize: 20,
+              fontWeight: FontWeight.bold,
               decoration: TextDecoration.none)),
     );
   }
 
   Widget getcrewname() {
     return Container(
-      margin: EdgeInsets.only(
-        top: 10,
-        left: 8,
-      ),
+      margin: EdgeInsets.only(top: 10, left: 8, bottom: 5),
       child: Text("CREW",
           style: TextStyle(
-              color: Colors.cyanAccent,
+              color: Color.fromRGBO(222, 49, 99, 1),
               fontSize: 20,
+              fontWeight: FontWeight.bold,
               decoration: TextDecoration.none)),
     );
   }
@@ -251,8 +251,9 @@ class _AboutState extends State<About> {
       ),
       child: Text("OVERVIEW",
           style: TextStyle(
-              color: Colors.cyanAccent,
+              color: Color.fromRGBO(222, 49, 99, 1),
               fontSize: 20,
+              fontWeight: FontWeight.bold,
               decoration: TextDecoration.none)),
     );
   }
@@ -263,8 +264,9 @@ class _AboutState extends State<About> {
       child: Text("GENRES",
           style: TextStyle(
               fontFamily: 'fonts/Lato-Bold.ttf',
-              color: Colors.cyanAccent,
+              color: Color.fromRGBO(222, 49, 99, 1),
               fontSize: 20,
+              fontWeight: FontWeight.bold,
               decoration: TextDecoration.none)),
     );
   }

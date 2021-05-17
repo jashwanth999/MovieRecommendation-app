@@ -5,7 +5,9 @@ import 'package:flutter_app/navigations/Topbar.dart';
 class Popularviewall extends StatefulWidget {
   final movieurlname;
   final originalmoviename;
-  Popularviewall({Key key, @required this.movieurlname, this.originalmoviename})
+  final url;
+  Popularviewall(
+      {Key key, @required this.movieurlname, this.originalmoviename, this.url})
       : super(key: key);
 
   @override
@@ -15,9 +17,7 @@ class Popularviewall extends StatefulWidget {
 class _PopularviewallState extends State<Popularviewall> {
   List popularlist;
   void getpopularresponse() async {
-    var response = await Dio().get("https://api.themoviedb.org/3/movie/" +
-        widget.movieurlname +
-        "?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1");
+    var response = await Dio().get(widget.url);
     var data = response.data;
     try {
       setState(() {

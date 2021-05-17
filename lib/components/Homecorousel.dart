@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Homecorousel extends StatefulWidget {
   Homecorousel({Key key}) : super(key: key);
@@ -34,7 +35,15 @@ class _HomecorouselState extends State<Homecorousel> {
 
   @override
   Widget build(BuildContext context) {
-    if (val == null) return Center(child: CircularProgressIndicator());
+    if (val == null)
+      return Container(
+          height: 240,
+          child: Shimmer.fromColors(
+              period: Duration(milliseconds: 2000),
+              baseColor: Colors.grey[700],
+              direction: ShimmerDirection.ltr,
+              highlightColor: Colors.grey[500],
+              child: Container(color: Colors.grey)));
     return SizedBox(
         height: 240.0,
         width: double.infinity,
