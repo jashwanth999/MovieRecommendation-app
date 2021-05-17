@@ -70,7 +70,7 @@ class _SearchbarState extends State<Searchbar> {
   ];
   Future getresponse() async {
     var response = await Dio().get(
-        "https://api.themoviedb.org/3/genre/movie/list?api_key=""&language=en-US");
+        "https://api.themoviedb.org/3/genre/movie/list?api_key=360a9b5e0dea438bac3f653b0e73af47&language=en-US");
     var data = response.data;
     try {
       setState(() {
