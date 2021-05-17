@@ -18,6 +18,7 @@ class _PopularviewallState extends State<Popularviewall> {
   List popularlist;
   void getpopularresponse() async {
     var response = await Dio().get(widget.url);
+
     var data = response.data;
     try {
       setState(() {

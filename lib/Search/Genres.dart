@@ -15,7 +15,7 @@ class _GenresState extends State<Genres> {
   List popularlist;
   void getpopularresponse() async {
     var response = await Dio().get(
-        "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=" +
+        "https://api.themoviedb.org/3/discover/movie?api_key=""&with_genres=" +
             widget.id.toString());
     var data = response.data;
     try {
