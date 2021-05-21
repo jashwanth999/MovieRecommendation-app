@@ -3,9 +3,13 @@ import 'package:flutter_app/navigations/Topbar.dart';
 import 'package:dio/dio.dart';
 
 class Genres extends StatefulWidget {
+  final userid;
   final id;
   final genrename;
-  Genres({Key key, @required this.id, this.genrename}) : super(key: key);
+  final username;
+  Genres(
+      {Key key, @required this.id, this.genrename, this.userid, this.username})
+      : super(key: key);
 
   @override
   _GenresState createState() => _GenresState();
@@ -85,6 +89,8 @@ class _GenresState extends State<Genres> {
                                       builder: (context) => Topbar(
                                             moviename: popularlist[index]
                                                 ["title"],
+                                            userid: widget.userid,
+                                            username: widget.username,
                                           )));
                             },
                             child: Container(

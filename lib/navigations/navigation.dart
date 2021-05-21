@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/watchlistbar.dart';
 import '../movie/Home.dart';
 import '../movie/Search.dart';
 import '../movie/Profile.dart';
@@ -45,9 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
         id: widget.id,
         username: widget.username,
       ),
-      Search(),
+      Search(id: widget.id, username: widget.username),
       Explore(id: widget.id, username: widget.username),
-      Watchlist(id: widget.id, username: widget.username),
+      
+      Watchlistbar(id: widget.id, username: widget.username),
       Profile(id: widget.id, username: widget.username),
     ];
     return Scaffold(

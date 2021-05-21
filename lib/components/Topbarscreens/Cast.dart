@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app/casts/Castdetails.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Cast extends StatefulWidget {
   final id;
-  Cast({Key key, @required this.id}) : super(key: key);
+  final userid;
+  final username;
+  Cast({Key key, @required this.id,this.userid,this.username}) : super(key: key);
 
   @override
   _CastState createState() => _CastState();
@@ -77,8 +80,18 @@ class _CastState extends State<Cast> {
         child: ListView.builder(
             itemCount: cast.length,
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                  onTap: () {},
+              return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Castdetails(
+                                castname: cast[index]["name"],
+                                userid: widget.userid,
+                                username: widget.username,
+                                profilepath: cast[index]["profile_path"],
+                                castid: cast[index]['id'])));
+                  },
                   child: Container(
                       margin: EdgeInsets.all(10), child: gethead(cast, index)));
             }));

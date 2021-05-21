@@ -24,7 +24,9 @@ class _RecommendationsState extends State<Recommendations> {
       var data = response.data;
       if (mounted) {
         setState(() {
-          popularlist = data;
+          if (mounted) {
+            popularlist = data;
+          }
         });
       }
     } catch (e) {
@@ -62,18 +64,17 @@ class _RecommendationsState extends State<Recommendations> {
         height: double.infinity,
         width: double.infinity,
         child: SingleChildScrollView(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child: Column(children: [
           getallpopularmoviecard(),
           Container(
             margin: EdgeInsets.only(
-              top: 5,
+              top: 10,
               left: 8,
             ),
-            child: Text("MORE LIKE THIS",
+            child: Text("MORE LIKE THIS 💙",
                 style: TextStyle(
                     color: Color.fromRGBO(222, 49, 99, 1),
-                    fontSize: 20,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.none)),
           ),
@@ -204,7 +205,7 @@ class _RecommendationsState extends State<Recommendations> {
     else
       return Container(
           color: Colors.black,
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 0),
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,

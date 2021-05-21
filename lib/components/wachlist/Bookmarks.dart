@@ -1,31 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
+import 'package:shimmer/shimmer.dart';
 
-class Watchlistmovies extends StatefulWidget {
+class Bookmarks extends StatefulWidget {
   final userid;
-  final watchlistmovieid;
   final username;
-  final watchlistname;
-  Watchlistmovies(
-      {Key key,
-      @required this.userid,
-      this.watchlistmovieid,
-      this.username,
-      this.watchlistname})
-      : super(key: key);
+  Bookmarks({Key key, @required this.userid, this.username}) : super(key: key);
 
   @override
-  _WatchlistmoviesState createState() => _WatchlistmoviesState();
+  _BookmarksState createState() => _BookmarksState();
 }
 
-class _WatchlistmoviesState extends State<Watchlistmovies> {
-  List watchlistmovies;
+class _BookmarksState extends State<Bookmarks> {
+  List savedlist;
   Future getpostdata() async {
-    final String url = "https://fast-tor-93770.herokuapp.com/watch/" +
-        widget.userid +
-        "/" +
-        widget.watchlistmovieid;
+    final String url =
+        "https://fast-tor-93770.herokuapp.com/saved/" + widget.userid;
     try {
       var response = await Dio().get(url);
       return response.data['post'];
@@ -34,16 +25,26 @@ class _WatchlistmoviesState extends State<Watchlistmovies> {
     }
   }
 
-  @override
   void initState() {
     super.initState();
-
     this.getpostdata().then((value) => {
           if (mounted)
             {
-              setState(() {
-                watchlistmovies = value[0]['watchlistdata'];
-              }),
+              if (value.length == 0)
+                {
+                  setState(() {
+                    savedlist = [];
+                  })
+                }
+              else
+                {
+                  if (mounted)
+                    {
+                      setState(() {
+                        savedlist = value["savedlist"];
+                      }),
+                    }
+                }
             }
         });
   }
@@ -51,25 +52,34 @@ class _WatchlistmoviesState extends State<Watchlistmovies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.black,
-          title: Text(
-            widget.watchlistname,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          title: Shimmer.fromColors(
+            period: Duration(milliseconds: 2000),
+            baseColor: Colors.grey[700],
+            direction: ShimmerDirection.ltr,
+            highlightColor: Colors.grey[500],
+            child: Text(
+              "BOOKMARKS",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
-        body: watchlistmovies == null
+        backgroundColor: Colors.black,
+        body: savedlist == null
             ? Center(child: CircularProgressIndicator())
             : Container(
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
-                      childAspectRatio: (74.0 / 120.0),
+                      childAspectRatio: (115.0 / 190.0),
                     ),
                     shrinkWrap: true,
-                    itemCount: watchlistmovies.length,
+                    itemCount: savedlist.length,
                     controller: ScrollController(keepScrollOffset: false),
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
@@ -80,14 +90,15 @@ class _WatchlistmoviesState extends State<Watchlistmovies> {
                                   builder: (context) => Topbar(
                                       userid: widget.userid,
                                       username: widget.username,
-                                      moviename: watchlistmovies[index]
+                                      moviename: savedlist[index]
                                           ["moviename"])));
                         },
                         child: Container(
+                            height: 170,
                             alignment: Alignment.center,
                             padding: EdgeInsets.all(4.0),
-                            margin: EdgeInsets.all(5.3),
-                            child: watchlistmovies[index]["poster_path"] == null
+                            margin: EdgeInsets.all(2),
+                            child: savedlist[index]["poster_path"] == null
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
                                     child: Image(
@@ -99,8 +110,7 @@ class _WatchlistmoviesState extends State<Watchlistmovies> {
                                     child: FadeInImage.assetNetwork(
                                       image:
                                           "https://image.tmdb.org/t/p/original" +
-                                              watchlistmovies[index]
-                                                  ["poster_path"],
+                                              savedlist[index]["poster_path"],
                                       placeholder: "images/loading.png",
                                       fit: BoxFit.cover,
                                     ))),

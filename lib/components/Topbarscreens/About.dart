@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app/casts/Castdetails.dart';
 
 class About extends StatefulWidget {
   final overview;
   final id;
   final moviename;
-  About({Key key, @required this.overview, this.id, this.moviename})
+  final userid;
+  final username;
+  About({Key key, @required this.overview, this.id, this.moviename,this.userid,this.username})
       : super(key: key);
 
   @override
@@ -47,7 +50,6 @@ class _AboutState extends State<About> {
   }
 
   void getcrewdetails() async {
-    //https://api.themoviedb.org/3/movie/550/credits?api_key=8b5da40bcd2b5fa4afe55c468001ad8a
     var response = await Dio().get("https://api.themoviedb.org/3/movie/" +
         widget.id.toString() +
         "/credits?api_key=8b5da40bcd2b5fa4afe55c468001ad8a");
@@ -99,9 +101,8 @@ class _AboutState extends State<About> {
                   widget.overview,
                   style: TextStyle(
                       fontFamily: 'fonts/Lato-Bold.ttf',
-                      color: Colors.white,
+                      color: Color.fromRGBO(131, 145, 146, 1),
                       fontSize: 18,
-                      letterSpacing: 0.5,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.none),
                 )),
@@ -124,38 +125,52 @@ class _AboutState extends State<About> {
             scrollDirection: Axis.horizontal,
             itemCount: crew.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                  width: 100,
-                  margin: EdgeInsets.all(3),
-                  child: Column(
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          height: 120,
-                          width: 100,
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: Image(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(crew[index]
-                                            ["profile_path"] ==
-                                        null
-                                    ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR28i5jWF37DvM01csPLTUTxEvCUAiL1ho6qw&usqp=CAU"
-                                    : "https://image.tmdb.org/t/p/original" +
-                                        crew[index]["profile_path"]),
-                              ))),
-                      Expanded(
-                          child: Container(
-                              margin: EdgeInsets.only(top: 5),
-                              child: Text(
-                                  crew[index]["original_name"].split(" ")[0],
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold))))
-                    ],
-                  ));
+              return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Castdetails(
+                                  castname: crew[index]['name'],
+                                  castid: crew[index]['id'],
+                                  userid: widget.userid,
+                                  username: widget.username,
+                                  profilepath: crew[index]['profile_path'],
+                                )));
+                  },
+                  child: Container(
+                      width: 100,
+                      margin: EdgeInsets.all(3),
+                      child: Column(
+                        children: [
+                          Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              height: 120,
+                              width: 100,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: Image(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(crew[index]
+                                                ["profile_path"] ==
+                                            null
+                                        ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR28i5jWF37DvM01csPLTUTxEvCUAiL1ho6qw&usqp=CAU"
+                                        : "https://image.tmdb.org/t/p/original" +
+                                            crew[index]["profile_path"]),
+                                  ))),
+                          Expanded(
+                              child: Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Text(
+                                      crew[index]["original_name"]
+                                          .split(" ")[0],
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold))))
+                        ],
+                      )));
             }));
   }
 

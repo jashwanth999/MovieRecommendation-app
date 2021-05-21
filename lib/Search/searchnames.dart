@@ -4,7 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
 
 class Searchnames extends StatefulWidget {
-  Searchnames({Key key}) : super(key: key);
+  final userid;
+  final username;
+  Searchnames({Key key, @required this.userid, this.username})
+      : super(key: key);
 
   @override
   _SearchnamesState createState() => _SearchnamesState();
@@ -141,11 +144,12 @@ class _SearchnamesState extends State<Searchnames> {
                         MaterialPageRoute(
                             builder: (context) => Topbar(
                                   moviename: names[index]["original_title"],
-                                  
+                                  userid: widget.userid,
+                                  username: widget.username,
                                 )));
                   },
                   child: Container(
-                      margin: EdgeInsets.all(4),
+                      margin: EdgeInsets.all(2),
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -154,7 +158,7 @@ class _SearchnamesState extends State<Searchnames> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                height: 120,
+                                height: 130,
                                 width: 100,
                                 child: names[index]["poster_path"] == null
                                     ? ClipRRect(
@@ -179,11 +183,12 @@ class _SearchnamesState extends State<Searchnames> {
                                 children: [
                                   Container(
                                       width: 230,
-                                      margin:
-                                          EdgeInsets.only(top: 30, left: 10),
+                                      margin: EdgeInsets.only(top: 20, left: 5),
                                       child: Text(
                                         names[index]['original_title'],
                                         maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,

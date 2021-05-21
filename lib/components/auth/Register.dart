@@ -183,7 +183,6 @@ class _RegisterState extends State<Register> {
                 fontSize: 20,
                 fontWeight: FontWeight.bold)));
   }
-
   Widget createbutton() {
     return Container(
       margin: EdgeInsets.only(top: 20),

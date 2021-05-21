@@ -129,7 +129,7 @@ class _AnswerState extends State<Answer> {
                                           child: Text(
                                             postlist[index]["answerer_name"][0],
                                             style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
                                             ),
@@ -156,7 +156,7 @@ class _AnswerState extends State<Answer> {
                                         postlist[index]['answer'],
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       )),
                                   Container(

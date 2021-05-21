@@ -29,6 +29,10 @@ dependencies:
   dio: ^4.0.0
   carousel_pro: ^1.0.0
   shimmer: ^2.0.0
+  flutter_icons: ^1.1.0
+  flutter_tindercard: ^0.2.0
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -47,6 +51,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/loading.png
+    - images/loading3.jpg
+     
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/Error.dart';
 import 'package:flutter_app/components/Topbarscreens/Recommendations.dart';
 import 'package:flutter_app/components/Topbarscreens/Reviews.dart';
+import 'package:flutter_app/components/wachlist/Addwatchlist.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import "../components/Topbarscreens/About.dart";
 import '../components/Topbarscreens/Cast.dart';
 import 'package:dio/dio.dart';
 
 class Topbar extends StatefulWidget {
   final moviename;
-  Topbar({
-    Key key,
-    @required this.moviename,
-  }) : super(key: key);
+  final userid;
+  final username;
+  Topbar({Key key, @required this.moviename, this.userid, this.username})
+      : super(key: key);
 
   @override
   _TopbarState createState() => _TopbarState();
@@ -20,6 +23,9 @@ class _TopbarState extends State<Topbar> {
   List moviedetails;
 
   void getpopularresponse() async {
+    if (widget.moviename == null || widget.moviename == "") {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Error()));
+    }
     try {
       var response = await Dio().get(
           "http://movie-bj-9.herokuapp.com/getmovie/" +
@@ -30,14 +36,18 @@ class _TopbarState extends State<Topbar> {
         moviedetails = [data];
       });
     } catch (e) {
-      print(e);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Error()));
     }
   }
 
   @override
   void initState() {
     super.initState();
-    this.getpopularresponse();
+    try {
+      this.getpopularresponse();
+    } catch (e) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Error()));
+    }
   }
 
   @override
@@ -53,12 +63,17 @@ class _TopbarState extends State<Topbar> {
                       return [
                         SliverAppBar(
                           backgroundColor: Colors.black,
-                          expandedHeight: 320,
+                          expandedHeight: 380,
                           pinned: true,
                           bottom: TabBar(
                             isScrollable: true,
                             indicatorWeight: 3,
-                            indicatorColor: Colors.pink,
+                            indicator: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    color: Colors.greenAccent, width: 3.0),
+                              ),
+                            ),
                             unselectedLabelColor: Colors.white,
                             tabs: [
                               Tab(
@@ -74,11 +89,9 @@ class _TopbarState extends State<Topbar> {
                                 ),
                               ),
                               Tab(
-                                child: GestureDetector(
-                                  child: Container(
-                                    child: Text("Recommends",
-                                        style: TextStyle(fontSize: 18)),
-                                  ),
+                                child: Container(
+                                  child: Text("Recommends",
+                                      style: TextStyle(fontSize: 18)),
                                 ),
                               ),
                               Tab(
@@ -91,53 +104,166 @@ class _TopbarState extends State<Topbar> {
                           ),
                           flexibleSpace: FlexibleSpaceBar(
                               background: Container(
-                                  child: Stack(
+                                  child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              moviedetails == null
-                                  ? Center(child: CircularProgressIndicator())
-                                  : Container(
+                              moviedetails[0]['backdrop_path'] == null
+                                  ? Container(
                                       width: double.infinity,
-                                      height: 240,
+                                      height: 230,
                                       child: Image(
                                           fit: BoxFit.cover,
+                                          image: AssetImage(
+                                            "images/loading3.jpg",
+                                          )))
+                                  : Container(
+                                      width: double.infinity,
+                                      height: 230,
+                                      child: Image(
+                                          fit: BoxFit.cover,
+                                          color: Color.fromRGBO(
+                                              255, 255, 255, 0.6),
+                                          colorBlendMode: BlendMode.modulate,
                                           image: NetworkImage(
                                             "https://image.tmdb.org/t/p/original" +
                                                 moviedetails[0]
                                                     ['backdrop_path'],
                                           ))),
-                              Positioned(
-                                  bottom: 60,
-                                  child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                              Container(
+                                  margin: EdgeInsets.all(10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      InkWell(
+                                          child: Container(
+                                              padding: EdgeInsets.all(5),
+                                              margin: EdgeInsets.all(5),
+                                              width: 150,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                  color: Colors.blueGrey),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 4, left: 5),
+                                                      child: Icon(
+                                                          AntDesign.play,
+                                                          size: 22,
+                                                          color: Colors.white)),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 4,
+                                                        left: 12,
+                                                        top: 2),
+                                                    child: Text(
+                                                      "Trailer",
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ))),
+                                      InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Addwatchlist(
+                                                          userid: widget.userid,
+                                                          username:
+                                                              widget.username,
+                                                          movieid:
+                                                              moviedetails[0]
+                                                                  ["id"],
+                                                          moviename: moviedetails[
+                                                                  0][
+                                                              "original_title"],
+                                                          posterpath:
+                                                              moviedetails[0][
+                                                                  "poster_path"],
+                                                        )));
+                                          },
+                                          child: Container(
+                                              margin: EdgeInsets.all(5),
+                                              width: 150,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                  color: Colors.blueGrey),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 4, left: 10),
+                                                      child: Icon(
+                                                          AntDesign.plus,
+                                                          size: 22,
+                                                          color: Colors.white)),
+                                                  Container(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 4,
+                                                        left: 5,
+                                                        top: 2),
+                                                    child: Text(
+                                                      "Watchlist",
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              )))
+                                    ],
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.all(10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          child: Text(
+                                        widget.moviename,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none,
+                                            color: Colors.blueAccent
+                                                .withOpacity(0.8)),
+                                      )),
+                                      Container(
+                                          child: Row(
                                         children: [
+                                          Icon(
+                                            FontAwesome.star,
+                                            color: Colors.amber,
+                                          ),
                                           Container(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    "https://play-lh.googleusercontent.com/IO3niAyss5tFXAQP176P0Jk5rg_A_hfKPNqzC4gb15WjLPjo5I-f7oIZ9Dqxw2wPBAg",
-                                                  ))),
-                                          Container(
-                                              width: 30,
-                                              height: 30,
-                                              child: Image(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRg5PtQDBAG-OciYiSal0Xghm5FeD5EmbzlA&usqp=CAU",
-                                                  ))),
-                                          Container(
-                                              width: 30,
-                                              height: 30,
-                                              child: Text(
-                                                "💯",
-                                                style: TextStyle(fontSize: 20),
-                                              )),
+                                            margin: EdgeInsets.all(5),
+                                            child: Text(
+                                              moviedetails[0]['vote_average']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18),
+                                            ),
+                                          )
                                         ],
-                                      )))
+                                      )),
+                                    ],
+                                  )),
                             ],
                           ))),
                           actions: [
@@ -182,10 +308,16 @@ class _TopbarState extends State<Topbar> {
                     body: TabBarView(
                       children: [
                         About(
+                            userid: widget.userid,
+                            username: widget.username,
                             overview: moviedetails[0]['overview'],
                             moviename: moviedetails[0]['original_title'],
                             id: moviedetails[0]['id']),
-                        Cast(id: moviedetails[0]['id']),
+                        Cast(
+                          id: moviedetails[0]['id'],
+                          userid: widget.userid,
+                          username: widget.username,
+                        ),
                         Recommendations(
                             id: moviedetails[0]['id'],
                             movie_name: widget.moviename),
@@ -195,46 +327,5 @@ class _TopbarState extends State<Topbar> {
                         )
                       ],
                     ))));
-  }
-
-  Widget getcard() {
-    return Container(
-      width: 300,
-      height: 450,
-      margin: EdgeInsets.only(left: 10, top: 10, right: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-              width: 150,
-              height: 230,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5.0),
-                  topRight: Radius.circular(5.0),
-                  bottomLeft: Radius.circular(5.0),
-                  bottomRight: Radius.circular(5.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    offset: const Offset(
-                      5.0,
-                      5.0,
-                    ),
-                    spreadRadius: 5.0,
-                    blurRadius: 4.0,
-                  ), //BoxShadow
-                ],
-              ),
-              child: Image(
-                  fit: BoxFit.contain,
-                  image: NetworkImage(
-                    "https://movies-b26f.kxcdn.com/wp-content/uploads/2020/05/king_kong_2005_-_photofest_-_h_2017-1-770x470.jpg",
-                  ))),
-        ],
-      ),
-    );
   }
 }

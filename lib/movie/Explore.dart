@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/movie/askme/Askme.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Explore extends StatefulWidget {
   final id;
@@ -119,7 +120,7 @@ class _ExploreState extends State<Explore> {
                             left: 10,
                             bottom: 5,
                           ),
-                          width: 300,
+                          width: 350,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(5.0),
@@ -139,7 +140,7 @@ class _ExploreState extends State<Explore> {
                             },
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: 'Type here'),
+                                hintText: 'Type here..'),
                           ))),
                     ],
                   ),
@@ -157,16 +158,19 @@ class _ExploreState extends State<Explore> {
                 if (post == null) {
                 } else {
                   show = true;
+                  Navigator.pop(context);
+                  // _showMyDialogs();
                   postdata().then((value) => {
                         this.getpostdata().then((value) => {
                               if (mounted)
                                 {
                                   setState(() {
                                     postlist = value["post"];
-                                    show = false;
                                   }),
                                 },
-                              Navigator.of(context).pop()
+                              setState(() {
+                                post = "";
+                              }),
                             }),
                       });
                 }
@@ -183,14 +187,19 @@ class _ExploreState extends State<Explore> {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          backgroundColor: Colors.black,
-          title: Text(
-            'Ask here',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ),
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            backgroundColor: Colors.black,
+            title: Shimmer.fromColors(
+              period: Duration(milliseconds: 2000),
+              baseColor: Colors.grey[300],
+              direction: ShimmerDirection.ltr,
+              highlightColor: Colors.grey[600],
+              child: Text(
+                'Ask here',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showMyDialog();

@@ -56,10 +56,12 @@ class _ReviewsState extends State<Reviews> {
                           reviews[index]["review"],
                           maxLines: 12,
                           style: TextStyle(
-                              fontFamily: 'fonts/Lato-Bold.ttf',
-                              decoration: TextDecoration.none,
-                              fontSize: 17,
-                              color: Colors.white),
+                            fontFamily: 'fonts/Lato-Bold.ttf',
+                            decoration: TextDecoration.none,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[300],
+                          ),
                         ),
                       ),
                       Container(

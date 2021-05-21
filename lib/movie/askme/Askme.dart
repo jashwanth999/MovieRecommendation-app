@@ -86,7 +86,7 @@ class _AskmeState extends State<Askme> {
                           color: Colors.white))),
             ],
           ),
-          followbutton()
+         
         ]));
   }
 
@@ -161,23 +161,5 @@ class _AskmeState extends State<Askme> {
     );
   }
 
-  Widget followbutton() {
-    return GestureDetector(
-        onTap: () {
-          setState(() {
-            follow = !follow;
-          });
-        },
-        child: Container(
-            constraints: BoxConstraints(maxWidth: 90.0, minHeight: 10.0),
-            alignment: Alignment.center,
-            child: Text(
-              !follow ? "Follow" : "Following",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            )));
-  }
+ 
 }

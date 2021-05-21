@@ -4,6 +4,9 @@ import 'package:flutter_app/Search/Genres.dart';
 import 'package:flutter_app/Search/searchnames.dart';
 
 class Searchbar extends StatefulWidget {
+  final id;
+  final username;
+  Searchbar({Key key, @required this.id, this.username}) : super(key: key);
   @override
   _SearchbarState createState() => _SearchbarState();
 }
@@ -141,8 +144,13 @@ class _SearchbarState extends State<Searchbar> {
             color: Colors.white, borderRadius: BorderRadius.circular(5.0)),
         child: TextField(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Searchnames()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Searchnames(
+                          userid: widget.id,
+                          username: widget.username,
+                        )));
           },
           decoration:
               InputDecoration(border: InputBorder.none, hintText: 'Search'),
@@ -169,9 +177,10 @@ class _SearchbarState extends State<Searchbar> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Genres(
-                                    id: val[index]['id'],
-                                    genrename: val[index]['name'],
-                                  )));
+                                  id: val[index]['id'],
+                                  genrename: val[index]['name'],
+                                  userid: widget.id,
+                                  username: widget.username)));
                     },
                     child: Container(
                         alignment: Alignment.center,

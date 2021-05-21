@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/auth/Login.dart';
+import 'package:flutter_app/components/wachlist/Bookmarks.dart';
+import 'package:flutter_app/components/watchlistbar.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class Profile extends StatefulWidget {
   final id;
@@ -27,52 +30,112 @@ class _ProfileState extends State<Profile> {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         gethead(),
-        getfollowers(),
-        //getpublicplay(),
+        InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Bookmarks(
+                          userid: widget.id, username: widget.username)));
+            },
+            child: Container(
+                margin: EdgeInsets.only(top: 20, left: 0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.all(15),
+                          child: Icon(
+                            Icons.bookmark,
+                            color: Colors.white,
+                            size: 23,
+                          )),
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          "SAVED",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ]))),
         Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Text(
-            "About",
-            style: TextStyle(
-                color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-        ),
+            margin: EdgeInsets.only(top: 10, left: 0),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                  padding: EdgeInsets.all(15),
+                  child: Icon(
+                    FontAwesome.star_half_empty,
+                    color: Colors.white,
+                    size: 23,
+                  )),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  "Rate App",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ])),
+        Container(
+            margin: EdgeInsets.only(top: 10, left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.all(15),
+                    child: Icon(
+                      FontAwesome.question_circle,
+                      color: Colors.white,
+                      size: 23,
+                    )),
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    "About",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            )),
         GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Login(),
-                ));
-          },
-          child: Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Text(
-              "Sign out",
-              style: TextStyle(
-                  color: Colors.pink,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        )
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Login()));
+            },
+            child: Container(
+                margin: EdgeInsets.only(top: 10, left: 0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.all(15),
+                          child: Icon(
+                            FontAwesome.sign_out,
+                            color: Colors.white,
+                            size: 23,
+                          )),
+                      Container(
+                        padding: EdgeInsets.all(15),
+                        child: Text(
+                          "Sign Out",
+                          style: TextStyle(
+                              color: Colors.pink,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ])))
       ]),
     );
-  }
-
-  Widget getlist() {
-    return Container(
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(top: 20, left: 20),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          GestureDetector(
-              child: Container(
-                  child: Text("Logout",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.pinkAccent))))
-        ]));
   }
 
   Widget getpublicplay() {
@@ -175,7 +238,7 @@ class _ProfileState extends State<Profile> {
                 borderRadius: BorderRadius.circular(120),
               )),
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: 15),
             child: Text(
               widget.username,
               style: TextStyle(

@@ -40,9 +40,9 @@ class _HomecorouselState extends State<Homecorousel> {
           height: 240,
           child: Shimmer.fromColors(
               period: Duration(milliseconds: 2000),
-              baseColor: Colors.grey[700],
+              baseColor: Colors.grey[500],
               direction: ShimmerDirection.ltr,
-              highlightColor: Colors.grey[500],
+              highlightColor: Colors.grey[300],
               child: Container(color: Colors.grey)));
     return SizedBox(
         height: 240.0,
@@ -75,19 +75,24 @@ class _HomecorouselState extends State<Homecorousel> {
                       bottom: 30,
                       left: 10,
                       child: Container(
-                        child: Text(
-                          val[3]["original_title"] == null
-                              ? " "
-                              : val[3]["original_title"],
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          softWrap: false,
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'fonts/Lato-Bold.ttf'),
-                        ),
+                        child: Shimmer.fromColors(
+                            period: Duration(milliseconds: 2000),
+                            baseColor: Colors.grey[500],
+                            direction: ShimmerDirection.ltr,
+                            highlightColor: Colors.grey[300],
+                            child: Text(
+                              val[3]["original_title"] == null
+                                  ? " "
+                                  : val[3]["original_title"],
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'fonts/Lato-Bold.ttf'),
+                            )),
                       )),
                 ])),
             GestureDetector(
@@ -114,19 +119,24 @@ class _HomecorouselState extends State<Homecorousel> {
                       bottom: 30,
                       left: 10,
                       child: Container(
-                        child: Text(
-                          val[7]["original_title"] == null
-                              ? " "
-                              : val[7]["original_title"],
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          softWrap: false,
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'fonts/Lato-Bold.ttf'),
-                        ),
+                        child: Shimmer.fromColors(
+                            period: Duration(milliseconds: 2000),
+                            baseColor: Colors.grey[500],
+                            direction: ShimmerDirection.ltr,
+                            highlightColor: Colors.grey[300],
+                            child: Text(
+                              val[7]["original_title"] == null
+                                  ? " "
+                                  : val[7]["original_title"],
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'fonts/Lato-Bold.ttf'),
+                            )),
                       )),
                 ])),
             GestureDetector(
@@ -152,19 +162,24 @@ class _HomecorouselState extends State<Homecorousel> {
                       bottom: 30,
                       left: 10,
                       child: Container(
-                        child: Text(
-                          val[6]["original_title"] == null
-                              ? " "
-                              : val[6]["original_title"],
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          softWrap: false,
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'fonts/Lato-Bold.ttf'),
-                        ),
+                        child: Shimmer.fromColors(
+                            period: Duration(milliseconds: 2000),
+                            baseColor: Colors.grey[500],
+                            direction: ShimmerDirection.ltr,
+                            highlightColor: Colors.grey[300],
+                            child: Text(
+                              val[6]["original_title"] == null
+                                  ? " "
+                                  : val[6]["original_title"],
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'fonts/Lato-Bold.ttf'),
+                            )),
                       )),
                 ])),
             GestureDetector(
@@ -191,19 +206,24 @@ class _HomecorouselState extends State<Homecorousel> {
                       bottom: 30,
                       left: 10,
                       child: Container(
-                        child: Text(
-                          val[5]["original_title"] == null
-                              ? " "
-                              : val[5]["original_title"],
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          softWrap: false,
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'fonts/Lato-Bold.ttf'),
-                        ),
+                        child: Shimmer.fromColors(
+                            period: Duration(milliseconds: 2000),
+                            baseColor: Colors.grey[500],
+                            direction: ShimmerDirection.ltr,
+                            highlightColor: Colors.grey[500],
+                            child: Text(
+                              val[5]["original_title"] == null
+                                  ? " "
+                                  : val[5]["original_title"],
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'fonts/Lato-Bold.ttf'),
+                            )),
                       )),
                 ])),
 
