@@ -11,51 +11,31 @@ class _ErrorState extends State<Error> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      backgroundColor: const Color(0xffd8f3dc),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 24,
-            bottom: 200,
-            left: 24,
-            right: 24,
-            child: Container(
-              child: Image.asset('images/loading.png'),
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+        ),
+        backgroundColor: Colors.black,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '404',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 50,
+                    letterSpacing: 2,
+                    color: Colors.white,
+                    fontFamily: 'Anton',
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'SORRY WE GOT SOME ERROR',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30, color: Colors.white),
+              ),
+            ],
           ),
-          Positioned(
-            top: 150,
-            bottom: 0,
-            left: 24,
-            right: 24,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                const Text(
-                  '404',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 50,
-                      letterSpacing: 2,
-                      color: const Color(0xff2f3640),
-                      fontFamily: 'Anton',
-                      fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  'Sorry, we couldn\'t find the page!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: const Color(0xff2f3640),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+        ));
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/auth/Login.dart';
+import 'package:flutter_app/components/profiles/Aboutme.dart';
 import 'package:flutter_app/components/wachlist/Bookmarks.dart';
-import 'package:flutter_app/components/watchlistbar.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   final id;
@@ -15,127 +16,144 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment(0.0, 0.0),
-          colors: <Color>[
-            Color.fromRGBO(145, 112, 157, 2),
-            Color.fromRGBO(6, 0, 8, 2)
-          ],
-        ),
-      ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        gethead(),
-        InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Bookmarks(
-                          userid: widget.id, username: widget.username)));
-            },
-            child: Container(
-                margin: EdgeInsets.only(top: 20, left: 0),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Icon(
-                            Icons.bookmark,
-                            color: Colors.white,
-                            size: 23,
-                          )),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Text(
-                          "SAVED",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ]))),
-        Container(
-            margin: EdgeInsets.only(top: 10, left: 0),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                  padding: EdgeInsets.all(15),
-                  child: Icon(
-                    FontAwesome.star_half_empty,
-                    color: Colors.white,
-                    size: 23,
-                  )),
-              Container(
-                padding: EdgeInsets.all(15),
-                child: Text(
-                  "Rate App",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ])),
-        Container(
-            margin: EdgeInsets.only(top: 10, left: 0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    padding: EdgeInsets.all(15),
-                    child: Icon(
-                      FontAwesome.question_circle,
-                      color: Colors.white,
-                      size: 23,
-                    )),
-                Container(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    "About",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.width * 1.5,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment(0.0, 0.0),
+              colors: <Color>[
+                Color.fromRGBO(145, 112, 157, 2),
+                Color.fromRGBO(6, 0, 8, 2)
               ],
-            )),
-        GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Login()));
-            },
-            child: Container(
-                margin: EdgeInsets.only(top: 10, left: 0),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(15),
-                          child: Icon(
-                            FontAwesome.sign_out,
-                            color: Colors.white,
-                            size: 23,
-                          )),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        child: Text(
-                          "Sign Out",
-                          style: TextStyle(
-                              color: Colors.pink,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ])))
-      ]),
-    );
+            ),
+          ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                gethead(),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Bookmarks(
+                                  userid: widget.id,
+                                  username: widget.username)));
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(top: 20, left: 25),
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.all(15),
+                                  child: Icon(
+                                    Icons.bookmark,
+                                    color: Colors.white,
+                                    size: 23,
+                                  )),
+                              Container(
+                                padding: EdgeInsets.all(15),
+                                child: Text(
+                                  "BOOKMARKS",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ]))),
+                Container(
+                    margin: EdgeInsets.only(top: 10, left: 25),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              padding: EdgeInsets.all(15),
+                              child: Icon(
+                                FontAwesome.star_half_empty,
+                                color: Colors.white,
+                                size: 23,
+                              )),
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            child: Text(
+                              "Rate App",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ])),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Aboutme()));
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(top: 10, left: 25),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.all(15),
+                                child: Icon(
+                                  FontAwesome.question_circle,
+                                  color: Colors.white,
+                                  size: 23,
+                                )),
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              child: Text(
+                                "About",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ))),
+                GestureDetector(
+                    onTap: () async {
+                      final SharedPreferences sharedPreferences =
+                          await SharedPreferences.getInstance();
+                      sharedPreferences.remove("userid");
+                      sharedPreferences.remove("username");
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(top: 10, left: 25),
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.all(15),
+                                  child: Icon(
+                                    FontAwesome.sign_out,
+                                    color: Colors.white,
+                                    size: 23,
+                                  )),
+                              Container(
+                                padding: EdgeInsets.all(15),
+                                child: Text(
+                                  "Sign Out",
+                                  style: TextStyle(
+                                      color: Colors.pink,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ])))
+              ]),
+        ));
   }
 
   Widget getpublicplay() {

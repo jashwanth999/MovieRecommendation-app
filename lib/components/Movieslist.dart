@@ -20,8 +20,8 @@ class _LatestState extends State<Latest> {
   List val;
   List watchlist;
   bool add = false;
-
   Future getpostdata() async {
+    if (widget.id == null) return;
     final String url =
         "https://fast-tor-93770.herokuapp.com/watch/" + widget.id;
     try {
@@ -53,7 +53,7 @@ class _LatestState extends State<Latest> {
     this.getpostdata().then((value) => {
           if (mounted)
             {
-              if (value.length == 0)
+              if (value == null || value.length == 0)
                 {
                   setState(() {
                     watchlist = value;
@@ -67,6 +67,32 @@ class _LatestState extends State<Latest> {
                 }
             }
         });
+  }
+
+  Future postdata(movieid, moviename, posterpath) async {
+    final String url = "https://fast-tor-93770.herokuapp.com/saved/" +
+        widget.id +
+        "/" +
+        movieid.toString();
+    dynamic dat = {
+      "userid": widget.id,
+      "username": widget.username,
+      "savedlist": [
+        {
+          "movieid": movieid.toString(),
+          "moviename": moviename,
+          "poster_path": posterpath
+        }
+      ]
+    };
+    try {
+      await Dio().post(url,
+          data: dat,
+          options: Options(
+              headers: {'Content-Type': 'application/json;charset=UTF-8'}));
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> _showMyDialog(movieid, moviename, posterpath) async {
@@ -83,7 +109,7 @@ class _LatestState extends State<Latest> {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
+                    InkWell(
                         onTap: () {
                           Navigator.pop(context);
                           Navigator.push(
@@ -98,20 +124,66 @@ class _LatestState extends State<Latest> {
                         },
                         child: Container(
                             child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Icon(
-                              AntDesign.plussquare,
+                              Icons.playlist_add,
                               color: Colors.red,
-                              size: 30,
+                              size: 33,
                             ),
-                            Text(
-                              "Add TO WATCHLIST",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 19,
-                                  color: Colors.white),
+                            Container(
+                              margin: EdgeInsets.only(top: 5, left: 10),
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                "Add TO WATCHLIST",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ))),
+                    InkWell(
+                        onTap: () async {
+                          await postdata(movieid, moviename, posterpath)
+                              .then((val) => {
+                                    Navigator.pop(context),
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: Text("SAVED",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Cancel',
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    )
+                                  });
+                        },
+                        child: Container(
+                            child: Row(
+                          children: [
+                            Icon(
+                              Icons.bookmark,
+                              color: Colors.red,
+                              size: 32,
                             ),
+                            Container(
+                                margin: EdgeInsets.only(top: 5, left: 10),
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  "SAVE THIS MOVIE",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.white),
+                                )),
                           ],
                         ))),
                     Container(
@@ -164,7 +236,7 @@ class _LatestState extends State<Latest> {
     else
       return Container(
           margin: EdgeInsets.symmetric(vertical: 10.0),
-          height: 160.0,
+          height: 170.0,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: val.length != null ? val.length : 0,
@@ -181,7 +253,7 @@ class _LatestState extends State<Latest> {
                                   )));
                     },
                     child: Container(
-                        width: 110,
+                        width: 121,
                         margin: EdgeInsets.all(6.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0)),
@@ -191,7 +263,7 @@ class _LatestState extends State<Latest> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                height: 145,
+                                height: 165,
                                 width: 120,
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(4),
@@ -206,10 +278,33 @@ class _LatestState extends State<Latest> {
                               right: 0,
                               child: GestureDetector(
                                   onTap: () {
-                                    _showMyDialog(
-                                        val[index]["id"],
-                                        val[index]["original_title"],
-                                        val[index]["poster_path"]);
+                                    if (widget.id == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Container(
+                                            height: 25,
+                                            alignment: Alignment.center,
+                                            child: Text("PLEASE LOGIN",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                          action: SnackBarAction(
+                                            label: 'CANCEL',
+                                            onPressed: () {
+                                              // Code to execute.
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      _showMyDialog(
+                                          val[index]["id"],
+                                          val[index]["original_title"],
+                                          val[index]["poster_path"]);
+                                    }
                                   },
                                   child: Icon(
                                     Icons.more_vert,

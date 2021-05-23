@@ -42,23 +42,13 @@ class _SwiperState extends State<Swiper> {
     }
   }
 
-  List url = [
-    "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
-    "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=2",
-    "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=3",
-    "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=18",
-    "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2020",
-    "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2019",
-    "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2017",
-    "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2016"
-  ];
   Future getresponse() async {
-    var response = await Dio().get(url[Random().nextInt(url.length)]);
+    var response = await Dio().get("https://movie-bj-9.herokuapp.com/getswipe");
     var data = response.data;
     try {
       if (mounted) {
         setState(() {
-          val = data["results"];
+          val = data;
         });
       }
     } catch (e) {
@@ -161,8 +151,8 @@ class _SwiperState extends State<Swiper> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          "TRY NEW",
-          style: TextStyle(color: Colors.white, fontSize: 19),
+          "SWIPE RIGHT OR LEFT",
+          style: TextStyle(color: Colors.amber, fontSize: 19),
         ),
         centerTitle: true,
         backgroundColor: Colors.black,
@@ -180,8 +170,8 @@ class _SwiperState extends State<Swiper> {
                 stackNum: 3,
                 swipeEdge: 4.0,
                 maxWidth: MediaQuery.of(context).size.width * 1.0,
-                maxHeight: MediaQuery.of(context).size.width * 1.6,
-                minWidth: MediaQuery.of(context).size.width * 0.85,
+                maxHeight: MediaQuery.of(context).size.width * 1.85,
+                minWidth: MediaQuery.of(context).size.width * 0.83,
                 minHeight: MediaQuery.of(context).size.width * 1,
                 cardBuilder: (context, index) => Card(
                     child: GestureDetector(
@@ -202,7 +192,7 @@ class _SwiperState extends State<Swiper> {
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(4),
                                 child: FadeInImage.assetNetwork(
-                                  image: "https://image.tmdb.org/t/p/w500" +
+                                  image: "https://image.tmdb.org/t/p/original" +
                                       val[index]["poster_path"],
                                   placeholder: "images/loading.png",
                                   fit: BoxFit.cover,
@@ -212,23 +202,6 @@ class _SwiperState extends State<Swiper> {
                     (DragUpdateDetails details, Alignment align) {
                   if (align.x < 0) {
                   } else if (align.x > 3) {
-                    /* ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Container(
-                          height: 25,
-                          alignment: Alignment.center,
-                          child: Text("SAVED",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
-                        ),
-                        action: SnackBarAction(
-                          label: 'Cancel',
-                          onPressed: () {
-                           
-                          },
-                        ),
-                      ),
-                    );*/
                     setState(() {
                       right = true;
                     });

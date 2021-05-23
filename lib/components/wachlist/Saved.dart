@@ -14,6 +14,9 @@ class Saved extends StatefulWidget {
 class _SavedState extends State<Saved> {
   List savedlist;
   Future getpostdata() async {
+    if (widget.userid == null) {
+      return;
+    }
     final String url =
         "https://fast-tor-93770.herokuapp.com/saved/" + widget.userid;
     try {
@@ -29,7 +32,7 @@ class _SavedState extends State<Saved> {
     this.getpostdata().then((value) => {
           if (mounted)
             {
-              if (value.length == 0)
+              if (value == null || value.length == 0)
                 {
                   setState(() {
                     savedlist = [];

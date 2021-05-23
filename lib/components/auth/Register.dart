@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/auth/Login.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app/main.dart';
+import 'package:flutter_app/navigations/navigation.dart';
 
 class Register extends StatefulWidget {
   Register({Key key}) : super(key: key);
@@ -23,7 +25,7 @@ class _RegisterState extends State<Register> {
           options: Options(
               headers: {'Content-Type': 'application/json;charset=UTF-8'}));
 
-      return response.data['message'];
+      return response.data;
     } catch (e) {
       print(e);
     }
@@ -137,6 +139,7 @@ class _RegisterState extends State<Register> {
                               pass = text;
                             });
                           },
+                          obscureText: true,
                           decoration: InputDecoration(
                               border: InputBorder.none, hintText: 'Password'),
                         )),
@@ -183,6 +186,7 @@ class _RegisterState extends State<Register> {
                 fontSize: 20,
                 fontWeight: FontWeight.bold)));
   }
+
   Widget createbutton() {
     return Container(
       margin: EdgeInsets.only(top: 20),
@@ -191,7 +195,7 @@ class _RegisterState extends State<Register> {
         onPressed: () async {
           _showMyDialog();
           await postdata().then((value) => {
-                if (value == "registered successfully")
+                if (value["message"] == "registered successfully")
                   {
                     Navigator.of(context).pop(),
                     Navigator.push(context,
@@ -205,7 +209,7 @@ class _RegisterState extends State<Register> {
                         content: Container(
                           height: 25,
                           alignment: Alignment.center,
-                          child: Text(value,
+                          child: Text(value.toUpperCase(),
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                         ),

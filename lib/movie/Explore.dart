@@ -38,7 +38,6 @@ class _ExploreState extends State<Explore> {
   List postlist;
   Future getpostdata() async {
     final String url = "https://fast-tor-93770.herokuapp.com/post";
-
     try {
       var response = await Dio().get(url);
       return response.data;
@@ -156,6 +155,24 @@ class _ExploreState extends State<Explore> {
               child: Text('POST'),
               onPressed: () {
                 if (post == null) {
+                } else if (widget.id == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Container(
+                        height: 25,
+                        alignment: Alignment.center,
+                        child: Text("PLEASE LOGIN",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
+                      action: SnackBarAction(
+                        label: 'Cancel',
+                        onPressed: () {
+                          // Code to execute.
+                        },
+                      ),
+                    ),
+                  );
                 } else {
                   show = true;
                   Navigator.pop(context);
@@ -202,7 +219,26 @@ class _ExploreState extends State<Explore> {
             )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _showMyDialog();
+            if (widget.id == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Container(
+                    height: 25,
+                    alignment: Alignment.center,
+                    child: Text("PLEASE LOGIN",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ),
+                  action: SnackBarAction(
+                    label: 'Cancel',
+                    onPressed: () {
+                     
+                    },
+                  ),
+                ),
+              );
+            } else
+              _showMyDialog();
           },
           child: const Icon(Icons.add),
           backgroundColor: Colors.green,

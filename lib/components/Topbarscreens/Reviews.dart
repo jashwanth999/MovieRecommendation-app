@@ -39,7 +39,7 @@ class _ReviewsState extends State<Reviews> {
       return Center(
           child: Container(
               child: Text("✴️ No Reviews ✴️",
-                  style: TextStyle(color: Colors.blue, fontSize: 30))));
+                  style: TextStyle(color: Colors.white, fontSize: 30))));
     return Container(
         margin: EdgeInsets.only(top: 20),
         child: ListView.builder(

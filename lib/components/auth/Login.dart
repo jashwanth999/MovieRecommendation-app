@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/auth/Register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../navigations/navigation.dart';
 import 'package:dio/dio.dart';
+import 'package:localstorage/localstorage.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -11,6 +13,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  dynamic user;
+
+  final LocalStorage storage = new LocalStorage('localstorage_app');
   String email;
   String pass;
   Future postdata() async {
@@ -119,6 +124,7 @@ class _LoginState extends State<Login> {
                               pass = text;
                             });
                           },
+                          obscureText: true,
                           decoration: InputDecoration(
                               border: InputBorder.none, hintText: 'Password'),
                         )),
@@ -166,15 +172,21 @@ class _LoginState extends State<Login> {
       child: RaisedButton(
         onPressed: () async {
           _showMyDialog();
+          final SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
           await postdata().then((value) => {
                 if (value["message"] == "sigin successfully")
                   {
                     Navigator.of(context).pop(),
+                    sharedPreferences.setString("userid", value["id"]),
+                    sharedPreferences.setString("username", value["username"]),
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyHomePage(
-                                id: value['id'], username: value["username"])))
+                                  userid: value["id"],
+                                  username: value["username"],
+                                ))),
                   }
                 else
                   {
@@ -184,7 +196,7 @@ class _LoginState extends State<Login> {
                         content: Container(
                           height: 25,
                           alignment: Alignment.center,
-                          child: Text(value['message'],
+                          child: Text(value['message'].toUpperCase(),
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                         ),

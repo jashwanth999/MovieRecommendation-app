@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/Search/Genres.dart';
+import 'package:flutter_app/Search/Genreslist.dart';
 import 'package:flutter_app/Search/searchnames.dart';
 
 class Searchbar extends StatefulWidget {
@@ -14,61 +15,43 @@ class Searchbar extends StatefulWidget {
 class _SearchbarState extends State<Searchbar> {
   List val;
   List browse = [
-    {
-      "name": "top",
-      "color": Colors.red,
-    },
-    {
-      "name": "Bollywood",
-      "color": Colors.blue,
-    },
-    {
-      "name": "Folk",
-      "color": Colors.green,
-    },
-    {
-      "name": "Hip Hop",
-      "color": Colors.yellow,
-    },
-    {
-      "name": "top",
-      "color": Colors.pink,
-    },
+    {"name": "top", "color": Colors.red, "image": "images/action.jpg"},
+    {"name": "Bollywood", "color": Colors.blue, "image": "images/adventu.jpg"},
+    {"name": "Folk", "color": Colors.green, "image": "images/animation.jpg"},
+    {"name": "Hip Hop", "color": Colors.yellow, "image": "images/comedy.jpg"},
+    {"name": "top", "color": Colors.pink, "image": "images/crime.jpg"},
     {
       "name": "Bollywood",
       "color": Colors.pinkAccent,
+      "image": "images/doc.jpg"
     },
-    {
-      "name": "Folk",
-      "color": Colors.indigo,
-    },
+    {"name": "Folk", "color": Colors.indigo, "image": "images/dram.jpg"},
     {
       "name": "Hip Hop",
       "color": Colors.deepOrangeAccent,
+      "image": "images/family.jpg"
     },
-    {
-      "name": "Hip Hop",
-      "color": Colors.purple,
-    },
+    {"name": "Hip Hop", "color": Colors.purple, "image": "images/fantasy.jpg"},
     {
       "name": "top",
       "color": Colors.lightGreenAccent,
+      "image": "images/history.jpg"
     },
     {
       "name": "Bollywood",
       "color": Colors.blueGrey,
+      "image": "images/horror.jpg"
     },
-    {
-      "name": "Folk",
-      "color": Colors.green[200],
-    },
+    {"name": "Folk", "color": Colors.green[200], "image": "images/music.jpg"},
     {
       "name": "Hip Hop",
       "color": Colors.tealAccent,
+      "image": "images/mystery.jpg"
     },
     {
       "name": "top",
       "color": Colors.deepPurpleAccent,
+      "image": "images/romance.jpg"
     },
   ];
   Future getresponse() async {
@@ -165,7 +148,7 @@ class _SearchbarState extends State<Searchbar> {
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: (140.0 / 60.0),
+                childAspectRatio: (140.0 / 70.0),
               ),
               shrinkWrap: true,
               itemCount: 14,
@@ -176,7 +159,7 @@ class _SearchbarState extends State<Searchbar> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Genres(
+                              builder: (context) => Genreslist(
                                   id: val[index]['id'],
                                   genrename: val[index]['name'],
                                   userid: widget.id,
@@ -184,19 +167,35 @@ class _SearchbarState extends State<Searchbar> {
                     },
                     child: Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.all(6.0),
-                        margin: EdgeInsets.all(7.3),
+                        padding: EdgeInsets.all(3.0),
+                        margin: EdgeInsets.all(3.3),
                         decoration: BoxDecoration(
-                          color: browse[index]['color'],
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        child: Container(
-                          child: Text(val[index]["name"],
-                              style: TextStyle(
-                                fontSize: 23,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5.0),
+                                child: Image(
+                                  color: Color.fromRGBO(255, 255, 255, 0.6),
+                                  colorBlendMode: BlendMode.modulate,
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(browse[index]["image"]),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              child: Text(val[index]["name"],
+                                  style: TextStyle(
+                                    fontSize: 23,
+                                    color: Colors.grey[400],
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            )
+                          ],
                         )));
               }));
   }

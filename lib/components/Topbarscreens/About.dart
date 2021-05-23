@@ -8,7 +8,13 @@ class About extends StatefulWidget {
   final moviename;
   final userid;
   final username;
-  About({Key key, @required this.overview, this.id, this.moviename,this.userid,this.username})
+  About(
+      {Key key,
+      @required this.overview,
+      this.id,
+      this.moviename,
+      this.userid,
+      this.username})
       : super(key: key);
 
   @override
@@ -30,9 +36,7 @@ class _AboutState extends State<About> {
       setState(() {
         moviedetails = [data];
       });
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   void getpopularresponse() async {
@@ -101,7 +105,7 @@ class _AboutState extends State<About> {
                   widget.overview,
                   style: TextStyle(
                       fontFamily: 'fonts/Lato-Bold.ttf',
-                      color: Color.fromRGBO(131, 145, 146, 1),
+                      color: Colors.grey[200],
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.none),
@@ -118,6 +122,14 @@ class _AboutState extends State<About> {
 
   Widget getcrew() {
     if (crew == null) return Center(child: CircularProgressIndicator());
+    if (crew.length == 0)
+      return Center(
+          child: Container(
+        child: Text(
+          "NO CREW DETAILS AVAILABLE",
+          style: TextStyle(color: Colors.white),
+        ),
+      ));
     return Container(
         margin: EdgeInsets.only(top: 10),
         height: 150,
@@ -165,7 +177,11 @@ class _AboutState extends State<About> {
                                   margin: EdgeInsets.only(top: 5),
                                   child: Text(
                                       crew[index]["original_name"]
-                                          .split(" ")[0],
+                                                  .split(" ")[0] ==
+                                              null
+                                          ? ""
+                                          : crew[index]["original_name"]
+                                              .split(" ")[0],
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold))))
@@ -187,7 +203,7 @@ class _AboutState extends State<About> {
               margin: EdgeInsets.only(top: 4),
               child: Text("Director: " + (director == null ? "" : director[0]),
                   style: TextStyle(
-                      color: Color.fromRGBO(131, 145, 146, 1),
+                      color: Colors.grey[200],
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -200,7 +216,7 @@ class _AboutState extends State<About> {
                           moviedetails[0]['runtime'].toString() +
                           "m",
                   style: TextStyle(
-                      color: Color.fromRGBO(131, 145, 146, 1),
+                      color: Colors.grey[200],
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -211,7 +227,7 @@ class _AboutState extends State<About> {
                       ? "Release Date: " + "NO data"
                       : "Release Date: " + moviedetails[0]['release_date'],
                   style: TextStyle(
-                      color: Color.fromRGBO(131, 145, 146, 1),
+                      color: Colors.grey[200],
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -223,7 +239,7 @@ class _AboutState extends State<About> {
                       : "popularity: " +
                           moviedetails[0]['popularity'].toString(),
                   style: TextStyle(
-                      color: Color.fromRGBO(131, 145, 146, 1),
+                      color: Colors.grey[200],
                       fontSize: 19,
                       fontWeight: FontWeight.bold)),
             ),
@@ -288,8 +304,9 @@ class _AboutState extends State<About> {
 
   Widget getgenres() {
     if (genres == null)
-      return Center(
-        child: CircularProgressIndicator(),
+      return Container(
+        height: 50,
+        child: Center(child: CircularProgressIndicator()),
       );
 
     return Container(
@@ -304,17 +321,10 @@ class _AboutState extends State<About> {
                   onTap: () {},
                   child: Container(
                     alignment: Alignment.center,
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(6),
                     margin: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment(0.5, 0.2),
-                        colors: <Color>[
-                          Color.fromRGBO(225, 152, 144, 2),
-                          Color.fromRGBO(242, 93, 78, 0.9)
-                        ],
-                      ),
+                      color: Colors.blue[200],
                       borderRadius: BorderRadius.circular(5),
                       boxShadow: [
                         BoxShadow(

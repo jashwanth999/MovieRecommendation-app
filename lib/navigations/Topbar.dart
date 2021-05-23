@@ -4,6 +4,7 @@ import 'package:flutter_app/components/Topbarscreens/Recommendations.dart';
 import 'package:flutter_app/components/Topbarscreens/Reviews.dart';
 import 'package:flutter_app/components/wachlist/Addwatchlist.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 import "../components/Topbarscreens/About.dart";
 import '../components/Topbarscreens/Cast.dart';
 import 'package:dio/dio.dart';
@@ -21,6 +22,40 @@ class Topbar extends StatefulWidget {
 
 class _TopbarState extends State<Topbar> {
   List moviedetails;
+  /* String url = "https://flutter.dev/";
+  void _launchURL() async {
+    if (!url.contains('http')) url = 'https://$url';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }*/
+  Future postdata(movieid, moviename, posterpath) async {
+    final String url = "https://fast-tor-93770.herokuapp.com/saved/" +
+        widget.userid +
+        "/" +
+        movieid.toString();
+    dynamic dat = {
+      "userid": widget.userid,
+      "username": widget.username,
+      "savedlist": [
+        {
+          "movieid": movieid.toString(),
+          "moviename": moviename,
+          "poster_path": posterpath
+        }
+      ]
+    };
+    try {
+      await Dio().post(url,
+          data: dat,
+          options: Options(
+              headers: {'Content-Type': 'application/json;charset=UTF-8'}));
+    } catch (e) {
+      print(e);
+    }
+  }
 
   void getpopularresponse() async {
     if (widget.moviename == null || widget.moviename == "") {
@@ -48,6 +83,120 @@ class _TopbarState extends State<Topbar> {
     } catch (e) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Error()));
     }
+  }
+
+  Future<void> _showMyDialog(movieid, moviename, posterpath) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            content: Container(
+                height: 140,
+                width: 140,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Addwatchlist(
+                                      userid: widget.userid,
+                                      username: widget.username,
+                                      movieid: movieid,
+                                      moviename: moviename,
+                                      posterpath: posterpath)));
+                        },
+                        child: Container(
+                            child: Row(
+                          children: [
+                            Icon(
+                              Icons.playlist_add,
+                              color: Colors.red,
+                              size: 33,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 5, left: 10),
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                "Add TO WATCHLIST",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ))),
+                    InkWell(
+                        onTap: () {
+                          postdata(movieid, moviename, posterpath)
+                              .then((val) => {
+                                    Navigator.pop(context),
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: Text("SAVED",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Cancel',
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    )
+                                  });
+                        },
+                        child: Container(
+                            child: Row(
+                          children: [
+                            Icon(
+                              Icons.bookmark,
+                              color: Colors.red,
+                              size: 32,
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(top: 5, left: 10),
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  "SAVE THIS MOVIE",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.white),
+                                )),
+                          ],
+                        ))),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.8,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            child: Text(
+                          "CLOSE",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.blue),
+                        )))
+                  ],
+                ))),
+          );
+        });
   }
 
   @override
@@ -122,7 +271,7 @@ class _TopbarState extends State<Topbar> {
                                       child: Image(
                                           fit: BoxFit.cover,
                                           color: Color.fromRGBO(
-                                              255, 255, 255, 0.6),
+                                              255, 255, 255, 0.8),
                                           colorBlendMode: BlendMode.modulate,
                                           image: NetworkImage(
                                             "https://image.tmdb.org/t/p/original" +
@@ -133,9 +282,50 @@ class _TopbarState extends State<Topbar> {
                                   margin: EdgeInsets.all(10),
                                   child: Row(
                                     mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          child: Text(
+                                        widget.moviename,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none,
+                                            color: Colors.pinkAccent
+                                                .withOpacity(0.8)),
+                                      )),
+                                      Container(
+                                          child: Row(
+                                        children: [
+                                          Icon(
+                                            FontAwesome.star,
+                                            color: Colors.amber,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: Text(
+                                              moviedetails[0]['vote_average']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18),
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                    ],
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.all(10),
+                                  child: Row(
+                                    mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       InkWell(
+                                          onTap: () {
+                                            //_launchURL();
+                                          },
                                           child: Container(
                                               padding: EdgeInsets.all(5),
                                               margin: EdgeInsets.all(5),
@@ -226,76 +416,15 @@ class _TopbarState extends State<Topbar> {
                                               )))
                                     ],
                                   )),
-                              Container(
-                                  margin: EdgeInsets.all(10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                          child: Text(
-                                        widget.moviename,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: 23,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none,
-                                            color: Colors.blueAccent
-                                                .withOpacity(0.8)),
-                                      )),
-                                      Container(
-                                          child: Row(
-                                        children: [
-                                          Icon(
-                                            FontAwesome.star,
-                                            color: Colors.amber,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Text(
-                                              moviedetails[0]['vote_average']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18),
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                    ],
-                                  )),
                             ],
                           ))),
                           actions: [
                             GestureDetector(
                                 onTap: () {
-                                  Scaffold.of(context).showBottomSheet<void>(
-                                    (BuildContext context) {
-                                      return Container(
-                                        height: 220,
-                                        decoration:
-                                            BoxDecoration(color: Colors.black),
-                                        child: Center(
-                                          child: Stack(
-                                            children: [
-                                              Positioned(
-                                                  right: 0,
-                                                  top: 0,
-                                                  child: GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Icon(
-                                                        Icons.close,
-                                                        color: Colors.pink,
-                                                        size: 30,
-                                                      ))),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
+                                  _showMyDialog(
+                                      moviedetails[0]["id"],
+                                      moviedetails[0]["original_title"],
+                                      moviedetails[0]["poster_path"]);
                                 },
                                 child: Icon(Icons.more_vert)),
                             SizedBox(
@@ -319,7 +448,9 @@ class _TopbarState extends State<Topbar> {
                           username: widget.username,
                         ),
                         Recommendations(
+                            userid: widget.userid,
                             id: moviedetails[0]['id'],
+                            username: widget.username,
                             movie_name: widget.moviename),
                         Reviews(
                           id: moviedetails[0]['id'],

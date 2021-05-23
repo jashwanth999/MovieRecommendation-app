@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app/components/wachlist/Addwatchlist.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:shimmer/shimmer.dart';
 //import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -8,7 +10,8 @@ class Popularviewall extends StatefulWidget {
   final url;
   final userid;
   final username;
-  Popularviewall({Key key, @required this.url,this.userid,this.username}) : super(key: key);
+  Popularviewall({Key key, @required this.url, this.userid, this.username})
+      : super(key: key);
 
   @override
   _PopularviewallState createState() => _PopularviewallState();
@@ -16,6 +19,74 @@ class Popularviewall extends StatefulWidget {
 
 class _PopularviewallState extends State<Popularviewall> {
   List popularlist;
+  Future<void> _showMyDialog(movieid, moviename, posterpath) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            content: Container(
+                height: 140,
+                width: 140,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Addwatchlist(
+                                      userid: widget.userid,
+                                      username: widget.username,
+                                      movieid: movieid,
+                                      moviename: moviename,
+                                      posterpath: posterpath)));
+                        },
+                        child: Container(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              AntDesign.plussquare,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                            Text(
+                              "Add TO WATCHLIST",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 19,
+                                  color: Colors.white),
+                            ),
+                          ],
+                        ))),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.8,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            child: Text(
+                          "CLOSE",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.blue),
+                        )))
+                  ],
+                ))),
+          );
+        });
+  }
+
   void getpopularresponse() async {
     var response = await Dio().get(widget.url);
 
@@ -126,10 +197,17 @@ class _PopularviewallState extends State<Popularviewall> {
                         Positioned(
                             top: 3,
                             right: 0,
-                            child: Icon(
-                              Icons.more_vert,
-                              color: Colors.white,
-                            )),
+                            child: InkWell(
+                                onTap: () {
+                                  _showMyDialog(
+                                      popularlist[index]["id"],
+                                      popularlist[index]["original"],
+                                      popularlist[index]["poster_path"]);
+                                },
+                                child: Icon(
+                                  Icons.more_vert,
+                                  color: Colors.white,
+                                ))),
                       ],
                     ));
               }));

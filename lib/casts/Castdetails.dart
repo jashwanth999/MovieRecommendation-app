@@ -8,7 +8,13 @@ class Castdetails extends StatefulWidget {
   final castid;
   final userid;
   final username;
-  Castdetails({Key key, @required this.castname, this.castid, this.profilepath,this.userid,this.username})
+  Castdetails(
+      {Key key,
+      @required this.castname,
+      this.castid,
+      this.profilepath,
+      this.userid,
+      this.username})
       : super(key: key);
 
   @override
@@ -94,7 +100,7 @@ class _CastdetailsState extends State<Castdetails> {
                 )),
             Container(
               child: Text(
-                "MORE MOVIES OF " + widget.castname.toUpperCase(),
+                "MORE MOVIES OF " + widget.castname.toUpperCase().split(' ')[0],
                 style: TextStyle(
                     color: Colors.pink,
                     fontWeight: FontWeight.bold,
@@ -126,7 +132,8 @@ class _CastdetailsState extends State<Castdetails> {
                           builder: (context) => Topbar(
                               userid: widget.userid,
                               username: widget.username,
-                              moviename: popularlist[index]["moviename"])));
+                              moviename: popularlist[index]
+                                  ["original_title"])));
                 },
                 child: Container(
                     height: 170,

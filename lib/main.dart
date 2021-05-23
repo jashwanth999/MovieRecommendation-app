@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import './components/auth/Login.dart';
+import 'package:flutter_app/Splashscreen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Main());
 
-class MyApp extends StatelessWidget {
-  @override
+class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Movie Recommedation',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Login(),
+      home: Splashscreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -40,12 +40,7 @@ class _HomeState extends State<Home> {
           "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
     },
     {
-      "name": "Popular",
-      "url":
-          "https://api.themoviedb.org/3/movie/popular?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=1",
-    },
-    {
-      "name": "Top Movies 2020",
+      "name": "Top Movies of 2020",
       "url":
           "http://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&primary_release_year=2020",
     },
@@ -60,23 +55,38 @@ class _HomeState extends State<Home> {
           "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=18",
     },
     {
-      "name": "Highest Grossing Comedy",
+      "name": "Horror",
       "url":
-          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=35&with_cast=23659&sort_by=revenue.desc",
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=27"
+    },
+    {
+      "name": "kids",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=16"
+    },
+    {
+      "name": "Thriller",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=9648"
+    },
+    {
+      "name": "Romance",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=10749"
     },
   ];
+
   List random = [
-    "https://media4.giphy.com/media/FjOsaw9z4BhrW/giphy.webp?cid=ecf05e47eute4qggz1w4r9xvmvfrz9rp5sb137m69oueuel6&rid=giphy.webp&ct=g",
-    "https://media4.giphy.com/media/hvdL7Xcmperfi/200w.webp?cid=ecf05e47eute4qggz1w4r9xvmvfrz9rp5sb137m69oueuel6&rid=200w.webp&ct=g",
-    "https://media2.giphy.com/media/EOfarA6ZUqzZu/giphy.webp?cid=ecf05e47reqkq2a2b4z9qd8glcnitq4zmx0p4cvrfwuzjxxh&rid=giphy.webp&ct=g",
-    "https://media1.giphy.com/media/OPOIcmwa6Ew2A/giphy.webp?cid=ecf05e47jrjqiwc0qsq96bwibzcrrqdmj84xl8a4kuvg4oo0&rid=giphy.webp&ct=g",
-    "https://media3.giphy.com/media/ZCU3YxmmD8lh6savbB/giphy.webp?cid=ecf05e470ruaj4i5c77h2xuitfl1hzc7gg785m3c23k4vuxw&rid=giphy.webp&ct=g",
-    "https://media3.giphy.com/media/11OOAQSnUaZT2M/200w.webp?cid=ecf05e47ll9grii3i5nt42w9g0ktp1tyk989w5e9g5cxr1fc&rid=200w.webp&ct=g",
-    "https://media4.giphy.com/media/fIIu2R4Z57iMw/giphy.webp?cid=ecf05e471yhc4ruonuc9pdac60r5j7nye28gdmpi47i2h9x7&rid=giphy.webp&ct=g",
-    "https://media3.giphy.com/media/NENOgw8mgH0NW/giphy.webp?cid=ecf05e471yhc4ruonuc9pdac60r5j7nye28gdmpi47i2h9x7&rid=giphy.webp&ct=g"
-        "https://media2.giphy.com/media/zRQIOikoG10CMxtpBh/200w.webp?cid=ecf05e47o9094zwn0qatljlqxx6rqqrvnsaybgl96cihigfh&rid=200w.webp&ct=g",
-    "https://media0.giphy.com/media/GRM7Z2s6AougoR3rvv/200w.webp?cid=ecf05e47o9094zwn0qatljlqxx6rqqrvnsaybgl96cihigfh&rid=200w.webp&ct=g"
-        "https://media0.giphy.com/media/c67v7Gkbr6bYOf5O4s/200w.webp?cid=ecf05e47cg1nqdxowvsyx5k7sdiudbj28yv4i3hsuwddf1mi&rid=200w.webp&ct=g"
+    "images/gif1.gif",
+    "images/gif2.gif",
+    "images/gif3.webp",
+    "images/gif4.gif",
+    "images/gif5.gif",
+    "images/gif6.gif",
+    "images/gif7.webp",
+    "images/gif8.gif",
+    "images/gif9.webp",
+    "images/gif10.webp"
   ];
   @override
   Widget build(BuildContext context) {
@@ -93,6 +103,7 @@ class _HomeState extends State<Home> {
   Widget getlist() {
     return Container(
         child: ListView.builder(
+            addAutomaticKeepAlives: true,
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) {
               if (index == 0) return gethead();
@@ -116,29 +127,29 @@ class _HomeState extends State<Home> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Image(
-                                color: Color.fromRGBO(255, 255, 250, 0.5),
+                                color: Color.fromRGBO(255, 255, 250, 0.7),
                                 colorBlendMode: BlendMode.modulate,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
-                                image: NetworkImage(
+                                image: AssetImage(
                                     random[Random().nextInt(random.length)])),
                           ),
                           Positioned(
                               bottom: 20,
                               left: 20,
-                              child: Shimmer.fromColors(
-                                  period: Duration(milliseconds: 2000),
-                                  baseColor: Colors.grey[100],
-                                  direction: ShimmerDirection.ltr,
-                                  highlightColor: Colors.grey[800],
-                                  child: Container(
+                              child: Container(
+                                  child: Shimmer.fromColors(
+                                      period: Duration(milliseconds: 2000),
+                                      baseColor: Colors.grey[100],
+                                      direction: ShimmerDirection.ltr,
+                                      highlightColor: Colors.grey[600],
                                       child: Text(
-                                    "TRY NEW",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  )))),
+                                        "SWIPE CARDS",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      )))),
                           Positioned(
                               top: 90,
                               right: 10,
@@ -231,7 +242,7 @@ class _HomeState extends State<Home> {
                     direction: ShimmerDirection.ltr,
                     highlightColor: Colors.grey[800],
                     child: Container(
-                        child: Text(name,
+                        child: Text(name.toUpperCase(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.5,

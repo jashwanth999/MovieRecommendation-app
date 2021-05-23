@@ -1,14 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/components/watchlistbar.dart';
+import 'package:localstorage/localstorage.dart';
 import '../movie/Home.dart';
 import '../movie/Search.dart';
 import '../movie/Profile.dart';
-import '../movie/watchlist.dart';
 import '../movie/Explore.dart';
 
 class MyHomePage extends StatefulWidget {
-  final id;
-  final username;
   final List<Page> _pages = [
     Page('Home', Icons.home, 30),
     Page('search', Icons.search, 30),
@@ -17,13 +16,23 @@ class MyHomePage extends StatefulWidget {
     Page('profile', Icons.person_outline, 30),
   ];
 
-  MyHomePage({Key key, @required this.id, this.username}) : super(key: key);
+  final userid;
+  final username;
+  MyHomePage({Key key, @required this.userid, this.username}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final LocalStorage storage = new LocalStorage('localstorage_app');
+  Future getitemFromLocalStorage() async {
+    try {
+      var info = await json.decode(storage.getItem('user'));
+      return info;
+    } catch (e) {}
+  }
+
   int _currentPageIndex = 0;
 
   void _openPage(int index) {
@@ -43,14 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     List routes = [
       Home(
-        id: widget.id,
+        id: widget.userid,
         username: widget.username,
       ),
-      Search(id: widget.id, username: widget.username),
-      Explore(id: widget.id, username: widget.username),
-      
-      Watchlistbar(id: widget.id, username: widget.username),
-      Profile(id: widget.id, username: widget.username),
+      Search(id: widget.userid, username: widget.username),
+      Explore(id: widget.userid, username: widget.username),
+      Watchlistbar(id: widget.userid, username: widget.username),
+      Profile(id: widget.userid, username: widget.username),
     ];
     return Scaffold(
       body: routes[_currentPageIndex],

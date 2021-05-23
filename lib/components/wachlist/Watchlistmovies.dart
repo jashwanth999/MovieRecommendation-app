@@ -56,7 +56,7 @@ class _WatchlistmoviesState extends State<Watchlistmovies> {
           centerTitle: true,
           backgroundColor: Colors.black,
           title: Text(
-            widget.watchlistname,
+            widget.watchlistname.toUpperCase(),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),

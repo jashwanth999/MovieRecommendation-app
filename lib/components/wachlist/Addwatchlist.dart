@@ -129,14 +129,17 @@ class _AddwatchlistState extends State<Addwatchlist> {
                         child: Container(
                           margin: EdgeInsets.all(8),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  height: 75,
-                                  width: 75,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey)),
-                                  child: Icon(AntDesign.plus,
-                                      color: Colors.white, size: 30)),
+                                  height: 76,
+                                  width: 76,
+                                  child: Image(
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    color: Colors.pinkAccent,
+                                    image: AssetImage("images/logo3.png"),
+                                  )),
                               Expanded(
                                   child: Container(
                                       margin: EdgeInsets.only(left: 20),

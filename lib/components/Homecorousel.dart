@@ -37,195 +37,150 @@ class _HomecorouselState extends State<Homecorousel> {
   Widget build(BuildContext context) {
     if (val == null)
       return Container(
-          height: 240,
+          height: MediaQuery.of(context).size.height * 0.35,
+          width: MediaQuery.of(context).size.width,
           child: Shimmer.fromColors(
               period: Duration(milliseconds: 2000),
               baseColor: Colors.grey[500],
               direction: ShimmerDirection.ltr,
               highlightColor: Colors.grey[300],
               child: Container(color: Colors.grey)));
-    return SizedBox(
-        height: 240.0,
-        width: double.infinity,
+    return Container(
+        height: 260,
+        width: MediaQuery.of(context).size.width,
         child: Carousel(
           autoplayDuration: Duration(seconds: 3),
           autoplay: true,
           images: [
-            GestureDetector(
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Topbar(
-                                moviename: val[3]["original_title"],
-                              )));
-                },
-                child: Stack(children: [
-                  Container(
-                    height: double.infinity,
-                    child: FadeInImage.assetNetwork(
-                      image: "https://image.tmdb.org/t/p/w500" +
-                          val[3]["backdrop_path"],
-                      placeholder: "images/loading.png",
-                      width: double.infinity,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Positioned(
-                      bottom: 30,
-                      left: 10,
-                      child: Container(
-                        child: Shimmer.fromColors(
-                            period: Duration(milliseconds: 2000),
-                            baseColor: Colors.grey[500],
-                            direction: ShimmerDirection.ltr,
-                            highlightColor: Colors.grey[300],
-                            child: Text(
-                              val[3]["original_title"] == null
-                                  ? " "
-                                  : val[3]["original_title"],
-                              overflow: TextOverflow.fade,
-                              maxLines: 1,
-                              softWrap: false,
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'fonts/Lato-Bold.ttf'),
-                            )),
-                      )),
-                ])),
-            GestureDetector(
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Topbar(
-                                moviename: val[7]["original_title"],
-                              )));
-                },
-                child: Stack(children: [
-                  Container(
-                    height: double.infinity,
-                    child: FadeInImage.assetNetwork(
-                      image: "https://image.tmdb.org/t/p/w500" +
-                          val[7]["backdrop_path"],
-                      placeholder: "images/loading.png",
-                      width: double.infinity,
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  Positioned(
-                      bottom: 30,
-                      left: 10,
-                      child: Container(
-                        child: Shimmer.fromColors(
-                            period: Duration(milliseconds: 2000),
-                            baseColor: Colors.grey[500],
-                            direction: ShimmerDirection.ltr,
-                            highlightColor: Colors.grey[300],
-                            child: Text(
-                              val[7]["original_title"] == null
-                                  ? " "
-                                  : val[7]["original_title"],
-                              overflow: TextOverflow.fade,
-                              maxLines: 1,
-                              softWrap: false,
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'fonts/Lato-Bold.ttf'),
-                            )),
-                      )),
-                ])),
-            GestureDetector(
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Topbar(
-                                moviename: val[6]["original_title"],
-                              )));
-                },
-                child: Stack(children: [
-                  Container(
-                      height: double.infinity,
-                      child: FadeInImage.assetNetwork(
-                        image: "https://image.tmdb.org/t/p/w500" +
-                            val[6]["backdrop_path"],
-                        placeholder: "images/loading.png",
-                        fit: BoxFit.fitHeight,
+            Stack(
+              children: [
+                GestureDetector(
+                    onTap: () async {
+                      if (val[0]["original_title"] == null) {
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Topbar(
+                                      moviename: val[0]["original_title"],
+                                    )));
+                      }
+                    },
+                    child: Container(
                         width: double.infinity,
-                      )),
-                  Positioned(
-                      bottom: 30,
-                      left: 10,
-                      child: Container(
-                        child: Shimmer.fromColors(
-                            period: Duration(milliseconds: 2000),
-                            baseColor: Colors.grey[500],
-                            direction: ShimmerDirection.ltr,
-                            highlightColor: Colors.grey[300],
-                            child: Text(
-                              val[6]["original_title"] == null
-                                  ? " "
-                                  : val[6]["original_title"],
-                              overflow: TextOverflow.fade,
-                              maxLines: 1,
-                              softWrap: false,
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'fonts/Lato-Bold.ttf'),
-                            )),
-                      )),
-                ])),
-            GestureDetector(
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Topbar(
-                                moviename: val[5]["original_title"],
-                              )));
-                },
-                child: Stack(children: [
-                  Container(
-                    height: double.infinity,
-                    child: FadeInImage.assetNetwork(
-                      image: "https://image.tmdb.org/t/p/w500" +
-                          val[5]["backdrop_path"],
-                      placeholder: "images/loading.png",
-                      fit: BoxFit.fitHeight,
+                        height: 260,
+                        child: FadeInImage.assetNetwork(
+                          fit: BoxFit.cover,
+                          image: "https://image.tmdb.org/t/p/original" +
+                              val[0]['poster_path'],
+                          placeholder: "images/loading.png",
+                        ))),
+              ],
+            ),
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    if (val[1]["original_title"] == null) {
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Topbar(
+                                    moviename: val[1]["original_title"],
+                                  )));
+                    }
+                  },
+                  child: Container(
                       width: double.infinity,
-                    ),
-                  ),
-                  Positioned(
-                      bottom: 30,
-                      left: 10,
-                      child: Container(
-                        child: Shimmer.fromColors(
-                            period: Duration(milliseconds: 2000),
-                            baseColor: Colors.grey[500],
-                            direction: ShimmerDirection.ltr,
-                            highlightColor: Colors.grey[500],
-                            child: Text(
-                              val[5]["original_title"] == null
-                                  ? " "
-                                  : val[5]["original_title"],
-                              overflow: TextOverflow.fade,
-                              maxLines: 1,
-                              softWrap: false,
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'fonts/Lato-Bold.ttf'),
-                            )),
+                      height: 260,
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
+                        image: "https://image.tmdb.org/t/p/original" +
+                            val[1]['poster_path'],
+                        placeholder: "images/loading.png",
                       )),
-                ])),
+                )
+              ],
+            ),
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    if (val[2]["original_title"] == null) {
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Topbar(
+                                    moviename: val[2]["original_title"],
+                                  )));
+                    }
+                  },
+                  child: Container(
+                      width: double.infinity,
+                      height: 260,
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
+                        image: "https://image.tmdb.org/t/p/original" +
+                            val[2]['poster_path'],
+                        placeholder: "images/loading.png",
+                      )),
+                )
+              ],
+            ),
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    if (val[3]["original_title"] == null) {
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Topbar(
+                                    moviename: val[3]["original_title"],
+                                  )));
+                    }
+                  },
+                  child: Container(
+                      width: double.infinity,
+                      height: 260,
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
+                        image: "https://image.tmdb.org/t/p/original" +
+                            val[3]['poster_path'],
+                        placeholder: "images/loading.png",
+                      )),
+                )
+              ],
+            ),
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    if (val[4]["original_title"] == null) {
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Topbar(
+                                    moviename: val[4]["original_title"],
+                                  )));
+                    }
+                  },
+                  child: Container(
+                      width: double.infinity,
+                      height: 260,
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
+                        image: "https://image.tmdb.org/t/p/original" +
+                            val[4]['poster_path'],
+                        placeholder: "images/loading.png",
+                      )),
+                )
+              ],
+            )
 
             /*GestureDetector(
               onTap: () async {
@@ -237,9 +192,9 @@ class _HomecorouselState extends State<Homecorousel> {
                             )));
               },
               child: Image(
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.cover,
                 image: NetworkImage("https://image.tmdb.org/t/p/original" +
-                    val[5]["backdrop_path"]),
+                    val[5]["poster_path"]),
               ),
             ),
             GestureDetector(
