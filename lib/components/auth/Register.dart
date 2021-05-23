@@ -209,7 +209,7 @@ class _RegisterState extends State<Register> {
                         content: Container(
                           height: 25,
                           alignment: Alignment.center,
-                          child: Text(value.toUpperCase(),
+                          child: Text(value["message"],
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                         ),

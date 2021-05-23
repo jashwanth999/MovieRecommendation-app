@@ -17,6 +17,17 @@ class Watchlist extends StatefulWidget {
 class _WatchlistState extends State<Watchlist> {
   List watchlist;
   String watchlistname;
+  Future del(watchlistnameid) async {
+    final String url = "https://fast-tor-93770.herokuapp.com/delete/" +
+        widget.id +
+        "/" +
+        watchlistnameid;
+    try {
+      var response = await Dio().delete(url);
+      return response.data["message"];
+    } catch (e) {}
+  }
+
   Future postdata() async {
     final String url = "https://fast-tor-93770.herokuapp.com/watch";
     dynamic dat = {
@@ -82,6 +93,123 @@ class _WatchlistState extends State<Watchlist> {
                 watchlist = value["post"];
               }),
             }
+        });
+  }
+
+  Future<void> _showMyDialogs(watchlistnameid) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            content: Container(
+                height: 100,
+                width: 100,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                        onTap: () async {
+                          del(watchlistnameid).then((result) => {
+                                if (result == "success")
+                                  {
+                                    Navigator.pop(context),
+                                    getpostdata().then((value) => {
+                                          if (value == null)
+                                            {
+                                              setState(() {
+                                                watchlist = [];
+                                              }),
+                                            }
+                                          else if (mounted)
+                                            {
+                                              setState(() {
+                                                watchlist = value["post"];
+                                              }),
+                                            }
+                                        }),
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: Text("Watchlist deleted",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Cancel',
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    ),
+                                  }
+                                else
+                                  {
+                                    Navigator.pop(context),
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Container(
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: Text("Got some Error",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Cancel',
+                                          onPressed: () {},
+                                        ),
+                                      ),
+                                    )
+                                  }
+                              });
+                        },
+                        child: Container(
+                            child: Row(
+                          children: [
+                            Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                              size: 33,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 5, left: 10),
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                "DELETE WATCHLIST",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ))),
+                    Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.8,
+                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            child: Text(
+                          "CLOSE",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.blue),
+                        )))
+                  ],
+                ))),
+          );
         });
   }
 
@@ -232,8 +360,13 @@ class _WatchlistState extends State<Watchlist> {
                                   Positioned(
                                       top: 10,
                                       right: 0,
-                                      child: Icon(Icons.more_vert,
-                                          color: Colors.white)),
+                                      child: InkWell(
+                                          onTap: () {
+                                            _showMyDialogs(watchlist[0]
+                                                ["watchlist"][index]['_id']);
+                                          },
+                                          child: Icon(Icons.more_vert,
+                                              color: Colors.white))),
                                   Positioned(
                                       bottom: 10,
                                       child: Shimmer.fromColors(

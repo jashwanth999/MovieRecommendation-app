@@ -6,7 +6,7 @@ void main() => runApp(Main());
 class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Movie Recommedation',
+      title: 'TRY ME',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

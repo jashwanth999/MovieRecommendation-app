@@ -77,6 +77,18 @@ class _GenreslistState extends State<Genreslist> {
                 username: widget.username,
                 url: url + widget.id.toString() + "&page=" + (8).toString(),
                 genrename: widget.genrename,
+              ),
+              Genres(
+                userid: widget.userid,
+                username: widget.username,
+                url: url + widget.id.toString() + "&page=" + (9).toString(),
+                genrename: widget.genrename,
+              ),
+              Genres(
+                userid: widget.userid,
+                username: widget.username,
+                url: url + widget.id.toString() + "&page=" + (10).toString(),
+                genrename: widget.genrename,
               )
             ],
           ),

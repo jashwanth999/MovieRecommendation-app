@@ -22,15 +22,32 @@ class Topbar extends StatefulWidget {
 
 class _TopbarState extends State<Topbar> {
   List moviedetails;
-  /* String url = "https://flutter.dev/";
-  void _launchURL() async {
-    if (!url.contains('http')) url = 'https://$url';
-    if (await canLaunch(url)) {
-      await launch(url);
+
+  launchurl() async {
+    String url = "https://www.youtube.com/watch?v=" +
+        moviedetails[1]["results"][0]["key"];
+    if (await canLaunch(url) != null) {
+      launch(url);
     } else {
-      throw 'Could not launch $url';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Container(
+            height: 25,
+            alignment: Alignment.center,
+            child: Text("Trailer not found",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ),
+          action: SnackBarAction(
+            label: 'Cancel',
+            onPressed: () {
+              // Code to execute.
+            },
+          ),
+        ),
+      );
     }
-  }*/
+  }
+
   Future postdata(movieid, moviename, posterpath) async {
     final String url = "https://fast-tor-93770.herokuapp.com/saved/" +
         widget.userid +
@@ -66,9 +83,10 @@ class _TopbarState extends State<Topbar> {
           "http://movie-bj-9.herokuapp.com/getmovie/" +
               widget.moviename.toString());
       var data = response.data;
+      print(data);
 
       setState(() {
-        moviedetails = [data];
+        moviedetails = data;
       });
     } catch (e) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Error()));
@@ -256,28 +274,38 @@ class _TopbarState extends State<Topbar> {
                                   child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              moviedetails[0]['backdrop_path'] == null
+                              moviedetails[0]['backdrop_path'] != null
                                   ? Container(
                                       width: double.infinity,
                                       height: 230,
                                       child: Image(
                                           fit: BoxFit.cover,
                                           image: AssetImage(
-                                            "images/loading3.jpg",
+                                            "images/loading.png",
                                           )))
-                                  : Container(
-                                      width: double.infinity,
-                                      height: 230,
+                                  : ShaderMask(
+                                      shaderCallback: (rect) {
+                                        return LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.black,
+                                            Colors.transparent
+                                          ],
+                                        ).createShader(Rect.fromLTRB(
+                                            0, 30, rect.width, rect.height));
+                                      },
+                                      blendMode: BlendMode.dstIn,
                                       child: Image(
-                                          fit: BoxFit.cover,
-                                          color: Color.fromRGBO(
-                                              255, 255, 255, 0.8),
-                                          colorBlendMode: BlendMode.modulate,
-                                          image: NetworkImage(
+                                        image: NetworkImage(
                                             "https://image.tmdb.org/t/p/original" +
                                                 moviedetails[0]
-                                                    ['backdrop_path'],
-                                          ))),
+                                                    ['backdrop_path']),
+                                        height: 230,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                      ),
+                                    ),
                               Container(
                                   margin: EdgeInsets.all(10),
                                   child: Row(
@@ -324,7 +352,7 @@ class _TopbarState extends State<Topbar> {
                                     children: [
                                       InkWell(
                                           onTap: () {
-                                            //_launchURL();
+                                            launchurl();
                                           },
                                           child: Container(
                                               padding: EdgeInsets.all(5),

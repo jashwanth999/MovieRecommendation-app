@@ -34,7 +34,7 @@ class _AboutState extends State<About> {
       var data = response.data;
 
       setState(() {
-        moviedetails = [data];
+        moviedetails = data;
       });
     } catch (e) {}
   }

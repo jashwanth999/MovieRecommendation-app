@@ -191,7 +191,7 @@ class _SearchbarState extends State<Searchbar> {
                               child: Text(val[index]["name"],
                                   style: TextStyle(
                                     fontSize: 23,
-                                    color: Colors.grey[400],
+                                    color: Colors.grey[300],
                                     fontWeight: FontWeight.bold,
                                   )),
                             )

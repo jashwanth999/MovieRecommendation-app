@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
     {
       "name": "Top Rated",
       "url":
-          "https://api.themoviedb.org/3/movie/top_rated?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US",
+          "https://api.themoviedb.org/3/movie/top_rated?api_key=8b5da40bcd2b5fa4afe55c468001ad8a&language=en-US&page=2",
     },
     {
       "name": "",

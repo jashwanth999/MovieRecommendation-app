@@ -83,7 +83,30 @@ class _ProfileState extends State<Profile> {
                           Container(
                             padding: EdgeInsets.all(15),
                             child: Text(
-                              "Rate App",
+                              "RATE APP",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ])),
+                Container(
+                    margin: EdgeInsets.only(top: 10, left: 25),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              padding: EdgeInsets.all(15),
+                              child: Icon(
+                                Icons.contact_page,
+                                color: Colors.white,
+                                size: 23,
+                              )),
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            child: Text(
+                              "CONTACT",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -111,7 +134,7 @@ class _ProfileState extends State<Profile> {
                             Container(
                               padding: EdgeInsets.all(15),
                               child: Text(
-                                "About",
+                                "ABOUT",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -120,7 +143,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ],
                         ))),
-                GestureDetector(
+                InkWell(
                     onTap: () async {
                       final SharedPreferences sharedPreferences =
                           await SharedPreferences.getInstance();
@@ -144,7 +167,7 @@ class _ProfileState extends State<Profile> {
                               Container(
                                 padding: EdgeInsets.all(15),
                                 child: Text(
-                                  "Sign Out",
+                                  "SIGN OUT",
                                   style: TextStyle(
                                       color: Colors.pink,
                                       fontSize: 20,
@@ -154,82 +177,6 @@ class _ProfileState extends State<Profile> {
                             ])))
               ]),
         ));
-  }
-
-  Widget getpublicplay() {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 20,
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        "Settings",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  Widget getfollowers() {
-    return Container(
-        margin: EdgeInsets.only(top: 30, left: 20, right: 20),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                Text("3",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-                Text("Playlist",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-              ])),
-          Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                Text("0",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-                Text("Followers",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-              ])),
-          Container(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                Text("3",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-                Text("Following",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    )),
-              ]))
-        ]));
   }
 
   Widget gethead() {
@@ -266,21 +213,6 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            padding: EdgeInsets.only(left: 20, right: 20, top: 3, bottom: 3),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(17),
-                border: Border.all(color: Colors.white)),
-            child: Text(
-              "EDIT PROFILE",
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          )
         ]));
   }
 }

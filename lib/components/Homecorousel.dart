@@ -55,26 +55,35 @@ class _HomecorouselState extends State<Homecorousel> {
             Stack(
               children: [
                 GestureDetector(
-                    onTap: () async {
-                      if (val[0]["original_title"] == null) {
-                      } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Topbar(
-                                      moviename: val[0]["original_title"],
-                                    )));
-                      }
-                    },
-                    child: Container(
+                  onTap: () async {
+                    if (val[0]["original_title"] == null) {
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Topbar(
+                                    moviename: val[0]["original_title"],
+                                  )));
+                    }
+                  },
+                  child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(30, 60, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
                         width: double.infinity,
-                        height: 260,
-                        child: FadeInImage.assetNetwork(
-                          fit: BoxFit.cover,
-                          image: "https://image.tmdb.org/t/p/original" +
-                              val[0]['poster_path'],
-                          placeholder: "images/loading.png",
-                        ))),
+                        image: "https://image.tmdb.org/t/p/original" +
+                            val[0]['poster_path'],
+                        placeholder: "images/loading.png",
+                      )),
+                )
               ],
             ),
             Stack(
@@ -91,13 +100,21 @@ class _HomecorouselState extends State<Homecorousel> {
                                   )));
                     }
                   },
-                  child: Container(
-                      width: double.infinity,
-                      height: 260,
+                  child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(0, 30, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
                       child: FadeInImage.assetNetwork(
                         fit: BoxFit.cover,
+                        width: double.infinity,
                         image: "https://image.tmdb.org/t/p/original" +
-                            val[1]['poster_path'],
+                            val[4]['poster_path'],
                         placeholder: "images/loading.png",
                       )),
                 )
@@ -117,13 +134,21 @@ class _HomecorouselState extends State<Homecorousel> {
                                   )));
                     }
                   },
-                  child: Container(
-                      width: double.infinity,
-                      height: 260,
+                  child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(0, 30, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
                       child: FadeInImage.assetNetwork(
                         fit: BoxFit.cover,
+                        width: double.infinity,
                         image: "https://image.tmdb.org/t/p/original" +
-                            val[2]['poster_path'],
+                            val[1]['poster_path'],
                         placeholder: "images/loading.png",
                       )),
                 )
@@ -143,11 +168,19 @@ class _HomecorouselState extends State<Homecorousel> {
                                   )));
                     }
                   },
-                  child: Container(
-                      width: double.infinity,
-                      height: 260,
+                  child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(0, 30, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
                       child: FadeInImage.assetNetwork(
                         fit: BoxFit.cover,
+                        width: double.infinity,
                         image: "https://image.tmdb.org/t/p/original" +
                             val[3]['poster_path'],
                         placeholder: "images/loading.png",
@@ -169,11 +202,19 @@ class _HomecorouselState extends State<Homecorousel> {
                                   )));
                     }
                   },
-                  child: Container(
-                      width: double.infinity,
-                      height: 260,
+                  child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(
+                            Rect.fromLTRB(0, 30, rect.width, rect.height));
+                      },
+                      blendMode: BlendMode.dstIn,
                       child: FadeInImage.assetNetwork(
                         fit: BoxFit.cover,
+                        width: double.infinity,
                         image: "https://image.tmdb.org/t/p/original" +
                             val[4]['poster_path'],
                         placeholder: "images/loading.png",

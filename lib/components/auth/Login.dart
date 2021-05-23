@@ -196,7 +196,7 @@ class _LoginState extends State<Login> {
                         content: Container(
                           height: 25,
                           alignment: Alignment.center,
-                          child: Text(value['message'].toUpperCase(),
+                          child: Text(value['message'],
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                         ),
