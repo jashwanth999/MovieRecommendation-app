@@ -15,7 +15,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   dynamic user;
 
-  final LocalStorage storage = new LocalStorage('localstorage_app');
   String email;
   String pass;
   Future postdata() async {

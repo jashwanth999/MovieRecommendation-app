@@ -6,6 +6,7 @@ import 'package:flutter_app/Search/searchnames.dart';
 import 'package:flutter_app/components/Swiper.dart';
 import 'package:flutter_app/viewscreens/Popularviewlist.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import '../components/Homecorousel.dart';
 import '../components/Movieslist.dart';
@@ -20,6 +21,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String s = "";
+  Future getdata() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var recent = sharedPreferences.getStringList("recent");
+    print(recent);
+    return recent[recent.length - 1];
+  }
+
   List data = [
     {
       "name": "",
@@ -74,11 +84,25 @@ class _HomeState extends State<Home> {
       "url":
           "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=10749"
     },
+    {
+      "name": "Family",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=10751"
+    },
+    {
+      "name": "Crime",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=80"
+    },
+    {
+      "name": "",
+      "url":
+          "https://api.themoviedb.org/3/discover/movie?api_key=360a9b5e0dea438bac3f653b0e73af47&with_genres=80"
+    },
   ];
 
   List random = [
     "images/gif1.gif",
-    "images/gif2.gif",
     "images/gif3.webp",
     "images/gif4.gif",
     "images/gif5.gif",
@@ -88,6 +112,16 @@ class _HomeState extends State<Home> {
     "images/gif9.webp",
     "images/gif10.webp"
   ];
+  void initState() {
+    super.initState();
+    this.getdata().then((value) => {
+          setState(() {
+            s = value;
+          }),
+          print(s)
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,23 +204,45 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ));
-              return getlatest(data[index]["name"], data[index]['url']);
+              if (index == 13) {
+                if (s == "") return Container();
+                return getlatest("Cuz you searched for " + s,
+                    "http://movie-bj-9.herokuapp.com/send/" + s, s);
+              }
+
+              return getlatest(data[index]["name"], data[index]['url'], "");
             }));
   }
 
   Widget gethead() {
     return Container(
-        margin: EdgeInsets.only(top: 28, left: 5, right: 5, bottom: 10),
+        margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-                child: Text("Try Me 🍻",
-                    style: TextStyle(
-                      color: Colors.pink,
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                    ))),
+                child: Row(children: [
+              Container(
+                  height: 43,
+                  width: 43,
+                  child: Image(
+                    color: Colors.pink,
+                    fit: BoxFit.cover,
+                    image: AssetImage("images/logo3.png"),
+                  )),
+              Shimmer.fromColors(
+                  period: Duration(milliseconds: 2000),
+                  baseColor: Colors.grey[100],
+                  direction: ShimmerDirection.ltr,
+                  highlightColor: Colors.grey[800],
+                  child: Container(
+                      margin: EdgeInsets.only(top: 3),
+                      child: Text("TRY ME",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold)))),
+            ])),
             InkWell(
                 highlightColor: Colors.grey,
                 hoverColor: Colors.white,
@@ -202,13 +258,13 @@ class _HomeState extends State<Home> {
                 child: Icon(
                   Icons.search,
                   color: Colors.white,
-                  size: 30.0,
+                  size: 28.0,
                 )),
           ],
         ));
   }
 
-  Widget getlatest(name, url) {
+  Widget getlatest(name, url, recentname) {
     return Container(
         child: Column(
       children: [
@@ -217,6 +273,7 @@ class _HomeState extends State<Home> {
           url: url,
           id: widget.id,
           username: widget.username,
+          recentname: recentname,
         )
       ],
     ));
@@ -242,34 +299,37 @@ class _HomeState extends State<Home> {
                     direction: ShimmerDirection.ltr,
                     highlightColor: Colors.grey[800],
                     child: Container(
+                        width: 250,
                         child: Text(name.toUpperCase(),
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.5,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold)))),
               ],
             ),
-            Container(
-                child: InkWell(
-              highlightColor: Colors.grey,
-              hoverColor: Colors.white,
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Popularviewlist(
-                              originalmoviename: name,
-                              url: url,
-                              userid: widget.id,
-                              username: widget.username,
-                            )));
-              },
-              child: Text("MORE",
-                  style: TextStyle(
-                      color: Colors.white,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 15)),
-            ))
+            name == "Cuz you searched for " + s
+                ? Container()
+                : Container(
+                    child: InkWell(
+                    highlightColor: Colors.grey,
+                    hoverColor: Colors.white,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Popularviewlist(
+                                    originalmoviename: name,
+                                    url: url,
+                                    userid: widget.id,
+                                    username: widget.username,
+                                  )));
+                    },
+                    child: Text("MORE",
+                        style: TextStyle(
+                            color: Colors.white,
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 15)),
+                  ))
           ],
         ));
   }

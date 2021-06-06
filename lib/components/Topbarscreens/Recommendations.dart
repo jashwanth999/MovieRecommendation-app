@@ -122,7 +122,6 @@ class _RecommendationsState extends State<Recommendations> {
       print(e);
     }
   }
-
   @override
   void initState() {
     super.initState();

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/navigations/Topbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Searchnames extends StatefulWidget {
   final userid;
@@ -104,16 +105,15 @@ class _SearchnamesState extends State<Searchnames> {
                   hintText: 'Search'),
             ),
           ),
-          leading: FloatingActionButton(
-            onPressed: () {
+          leading: InkWell(
+            onTap: () {
               Navigator.pop(context);
             },
             child: Icon(
               Icons.arrow_back,
               color: Colors.white,
-              size: 30,
+              size: 25,
             ),
-            backgroundColor: Colors.green,
           ),
         ),
         body: getname());
@@ -138,7 +138,17 @@ class _SearchnamesState extends State<Searchnames> {
             itemCount: names.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    final SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+                    List<String>name =
+                        sharedPreferences.getStringList("recent") == null
+                            ? []
+                            : sharedPreferences.getStringList("recent");
+                    if (name == null) {
+                    } else
+                      name.add(names[index]["original_title"]);
+                    sharedPreferences.setStringList("recent", name);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -182,7 +192,8 @@ class _SearchnamesState extends State<Searchnames> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                      width: 230,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.54,
                                       margin: EdgeInsets.only(top: 20, left: 5),
                                       child: Text(
                                         names[index]['original_title'],
@@ -192,7 +203,7 @@ class _SearchnamesState extends State<Searchnames> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
-                                            fontSize: 20),
+                                            fontSize: 18),
                                       )),
                                   Container(
                                       margin:

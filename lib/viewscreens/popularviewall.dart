@@ -118,13 +118,14 @@ class _PopularviewallState extends State<Popularviewall> {
       return Container(
           margin: EdgeInsets.all(8.0),
           child: GridView.builder(
+              physics: ScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: (115.0 / 190.0),
               ),
               shrinkWrap: true,
               itemCount: 100,
-              controller: ScrollController(keepScrollOffset: false),
+              //controller: ScrollController(keepScrollOffset: false),
               itemBuilder: (BuildContext context, int index) {
                 return Shimmer.fromColors(
                   period: Duration(milliseconds: 2000),
@@ -150,8 +151,7 @@ class _PopularviewallState extends State<Popularviewall> {
                 childAspectRatio: (115.0 / 190.0),
               ),
               shrinkWrap: true,
-              itemCount: popularlist.length == 0 ? 0 : 18,
-              controller: ScrollController(keepScrollOffset: false),
+              itemCount: 18,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                     margin: EdgeInsets.all(6.0),

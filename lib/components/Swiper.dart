@@ -152,7 +152,7 @@ class _SwiperState extends State<Swiper> {
       appBar: AppBar(
         title: Text(
           "SWIPE RIGHT OR LEFT",
-          style: TextStyle(color: Colors.amber, fontSize: 19),
+          style: TextStyle(color: Colors.pink, fontSize: 19),
         ),
         centerTitle: true,
         backgroundColor: Colors.black,

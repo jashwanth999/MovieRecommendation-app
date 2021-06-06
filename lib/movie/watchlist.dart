@@ -54,7 +54,6 @@ class _WatchlistState extends State<Watchlist> {
 
   List random = [
     "images/gif1.gif",
-    "images/gif2.gif",
     "images/gif3.webp",
     "images/gif4.gif",
     "images/gif5.gif",

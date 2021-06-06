@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_app/Search/Genres.dart';
 import 'package:flutter_app/Search/Genreslist.dart';
 import 'package:flutter_app/Search/searchnames.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Searchbar extends StatefulWidget {
   final id;

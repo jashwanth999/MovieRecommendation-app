@@ -82,4 +82,18 @@ class _PopularviewlistState extends State<Popularviewlist> {
           ),
         ));
   }
+
+  Widget getlist() {
+    return ListView.builder(
+        itemCount: 5,
+        primary: true,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return Popularviewall(
+            url: widget.url + "&page=" + (index + 1).toString(),
+            userid: widget.userid,
+            username: widget.username,
+          );
+        });
+  }
 }

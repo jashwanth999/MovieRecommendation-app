@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/movie/askme/Answer.dart';
 
@@ -16,6 +18,33 @@ class Askme extends StatefulWidget {
 class _AskmeState extends State<Askme> {
   bool follow = false;
   bool like = false;
+  List colors = [
+    {
+      "color": Color.fromRGBO(145, 112, 157, 2),
+    },
+    {
+      "color": Color.fromRGBO(255, 87, 51, 2),
+    },
+    {
+      "color": Color.fromRGBO(51, 255, 72, 2),
+    },
+    {
+      "color": Color.fromRGBO(250, 215, 160, 2),
+    },
+    {
+      "color": Color.fromRGBO(214, 137, 16, 2),
+    },
+    {
+      "color": Color.fromRGBO(26, 188, 156, 2),
+    },
+    {
+      "color": Color.fromRGBO(36, 113, 163, 2),
+    }
+  ];
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +103,7 @@ class _AskmeState extends State<Askme> {
                     ),
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.brown,
+                    color: colors[Random().nextInt(colors.length)]['color'],
                     borderRadius: BorderRadius.circular(120),
                   )),
               Container(
@@ -86,7 +115,6 @@ class _AskmeState extends State<Askme> {
                           color: Colors.white))),
             ],
           ),
-         
         ]));
   }
 
@@ -160,6 +188,4 @@ class _AskmeState extends State<Askme> {
       ),
     );
   }
-
- 
 }

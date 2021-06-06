@@ -9,7 +9,8 @@ class Latest extends StatefulWidget {
   final url;
   final id;
   final username;
-  Latest({Key key, @required this.url, this.id, this.username})
+  final recentname;
+  Latest({Key key, @required this.url, this.id, this.username, this.recentname})
       : super(key: key);
 
   @override
@@ -36,10 +37,18 @@ class _LatestState extends State<Latest> {
     var response = await Dio().get(widget.url);
     var data = response.data;
     try {
-      if (mounted) {
-        setState(() {
-          val = data["results"];
-        });
+      if (widget.recentname != "") {
+        if (mounted) {
+          setState(() {
+            val = data;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            val = data["results"];
+          });
+        }
       }
     } catch (e) {
       print(e);
@@ -214,7 +223,7 @@ class _LatestState extends State<Latest> {
     if (val == null)
       return Container(
           margin: EdgeInsets.symmetric(vertical: 10.0),
-          height: 160.0,
+          height: 168.0,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 20,
@@ -225,7 +234,7 @@ class _LatestState extends State<Latest> {
                   direction: ShimmerDirection.ltr,
                   highlightColor: Colors.grey[500],
                   child: Container(
-                    width: 110,
+                    width: 118,
                     margin: EdgeInsets.all(6.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -236,7 +245,7 @@ class _LatestState extends State<Latest> {
     else
       return Container(
           margin: EdgeInsets.symmetric(vertical: 10.0),
-          height: 170.0,
+          height: 168.0,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: val.length != null ? val.length : 0,
@@ -253,7 +262,7 @@ class _LatestState extends State<Latest> {
                                   )));
                     },
                     child: Container(
-                        width: 121,
+                        width: 118,
                         margin: EdgeInsets.all(6.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0)),
@@ -265,14 +274,23 @@ class _LatestState extends State<Latest> {
                                 ),
                                 height: 165,
                                 width: 120,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: FadeInImage.assetNetwork(
-                                      image: "https://image.tmdb.org/t/p/w500" +
-                                          val[index]["poster_path"],
-                                      placeholder: "images/loading.png",
-                                      fit: BoxFit.cover,
-                                    ))),
+                                child: val[index]["poster_path"] == null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: Image(
+                                          image:
+                                              AssetImage("images/loading.png"),
+                                          fit: BoxFit.cover,
+                                        ))
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: FadeInImage.assetNetwork(
+                                          image:
+                                              "https://image.tmdb.org/t/p/w500" +
+                                                  val[index]["poster_path"],
+                                          placeholder: "images/loading.png",
+                                          fit: BoxFit.cover,
+                                        ))),
                             Positioned(
                               top: 3,
                               right: 0,

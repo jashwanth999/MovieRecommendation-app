@@ -83,8 +83,6 @@ class _TopbarState extends State<Topbar> {
           "http://movie-bj-9.herokuapp.com/getmovie/" +
               widget.moviename.toString());
       var data = response.data;
-      print(data);
-
       setState(() {
         moviedetails = data;
       });
@@ -274,7 +272,7 @@ class _TopbarState extends State<Topbar> {
                                   child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              moviedetails[0]['backdrop_path'] != null
+                              moviedetails[0]['backdrop_path'] == null
                                   ? Container(
                                       width: double.infinity,
                                       height: 230,
